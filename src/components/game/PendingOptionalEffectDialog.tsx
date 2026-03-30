@@ -1,0 +1,55 @@
+import React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "../ui/dialog";
+import { Button } from "../ui/button";
+import socket from "@/socket";
+import { useGameStore } from "@/store/gameStore";
+
+export default function PendingOptionalEffectDialog() {
+  const pending = useGameStore((s: any) => s.pendingOptionalEffect);
+  const setPending = useGameStore((s: any) => s.setPendingOptionalEffect);
+  const gameId = useGameStore((s) => s.roomId);
+
+  if (!pending) return null;
+
+  function accept() {
+    socket.emit("action:resolve_optional_effect", { gameId, accept: true });
+    setPending(null);
+  }
+
+  function reject() {
+    socket.emit("action:resolve_optional_effect", { gameId, accept: false });
+    setPending(null);
+  }
+
+  return (
+    <Dialog open={true} onOpenChange={() => setPending(null)}>
+      <DialogContent showCloseButton={false}>
+        <DialogHeader className="px-6 pt-5 pb-4 border-b border-[#5a3408] bg-[rgba(10,4,1,0.6)]">
+          <DialogTitle className="font-['Cinzel'] text-[#f0d090] tracking-[0.15em] text-base font-bold uppercase">
+            Efeito opcional
+          </DialogTitle>
+          <DialogDescription className="font-['Cinzel'] text-[#7a5020] text-xs tracking-widest uppercase mt-1">
+            {pending?.action ??
+              pending?.trigger ??
+              "Você pode executar um efeito."}
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="px-6 py-5 flex flex-col gap-5">
+          <div className="flex gap-3 justify-end">
+            <Button variant="outline" onClick={reject}>
+              Recusar
+            </Button>
+            <Button onClick={accept}>Aceitar</Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
