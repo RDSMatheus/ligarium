@@ -38,7 +38,6 @@ const Room = () => {
       useGameStore.getState().setGameState(res.gameState);
       useGameStore.getState().setScreen("game");
       setTimeout(() => {
-        // Agora sim, pega o valor atualizado
         console.log(
           "screen após game_started:",
           useGameStore.getState().screen,
@@ -132,22 +131,6 @@ const Room = () => {
         )}
       </div>
     </div>
-    // <div className="bg-amber-700">
-    //   {room?.players.map((player) => (
-    //     <div key={player.playerId}>
-    //       {player.name}{" "}
-    //       {player.playerId === playerId && (
-    //         <Button onClick={() => isReady()}>Pronto</Button>
-    //       )}
-    //       {player.isReady ? (
-    //         <span className="w-2 h-2 rounded-full inline-block bg-green-500"></span>
-    //       ) : (
-    //         <span className="w-2 h-2 rounded-full inline-block bg-red-500"></span>
-    //       )}
-    //     </div>
-    //   ))}
-    //   <Button onClick={() => startGame()}>Iniciar</Button>
-    // </div>
   );
 };
 

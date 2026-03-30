@@ -4,21 +4,12 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import { Input } from "../ui/input";
 import { useGameStore } from "@/store/gameStore";
 import socket from "@/socket";
-import { EVENTS } from "@/protocol";
 
 const CreateRoom = () => {
   function createRoom() {
-    socket.emit(EVENTS.CREATE_ROOM, (res: any) => {
-      console.log("create_room res:", res);
-      if (res?.ok) {
-        useGameStore.getState().setRoomId(res.roomId ?? res.gameId ?? null);
-        if (res.player?.playerId) {
-          useGameStore.getState().setPlayerId(res.player.playerId);
-        }
-        useGameStore.getState().setScreen("room");
-      } else {
-        console.error("Falha ao criar sala:", res?.error);
-      }
+    socket.emit("create_room", (res: any) => {
+      console.log(res);
+      useGameStore.getState().setRoomId(res.roomId);
     });
   }
 

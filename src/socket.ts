@@ -4,13 +4,10 @@ const SERVER_URL = import.meta.env?.VITE_SERVER_URL ?? "http://localhost:4000";
 
 export const socket = io(SERVER_URL, {
   autoConnect: true,
-  transports: ["websocket"],
+  transports: ["websocket", "polling"],
   reconnection: true,
-  reconnectionAttempts: 5,
+  reconnectionAttempts: Infinity,
   reconnectionDelay: 1000,
-  extraHeaders: {
-    "ngrok-skip-browser-warning": "true",
-  },
 });
 
 socket.on("connect", () => {
