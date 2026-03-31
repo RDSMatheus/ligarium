@@ -1,3 +1,5 @@
+import type { TargetCondition } from "./data/cardDatabase";
+
 export type ID = string;
 
 export type RoomState = "waiting" | "in_game" | "finished";
@@ -47,6 +49,51 @@ export interface CardEffect {
   trigger: string;
   description?: string;
 }
+
+export type EffectSpeed = "trigger" | "fast";
+
+export type EffectTrigger =
+  | "taunt_while_exhausted"
+  | "attacked"
+  | "attacking"
+  | "battling"
+  | "blocking"
+  | "played"
+  | "evolving"
+  | "end_of_turn"
+  | "main_phase"
+  | "either_turn"
+  | "when_destroyed"
+  | "when_returned"
+  | "farm"
+  | "continuous"
+  | "blocker";
+
+export type EffectTarget =
+  | "opponent_farm"
+  | "own_farm"
+  | "opponent_battle"
+  | "own_battle"
+  | "opponent_hand"
+  | "own_hand"
+  | "opponent_main"
+  | "own_main"
+  | "opponent_trash"
+  | "own_trash"
+  | "any"; // sem alvo (efeito não precisa de alvo)
+
+export interface PendingOptionalEffect {
+  sourceInstanceId: string; // qual carta gerou o efeito
+  ownerId: string; // qual jogador decide se ativa
+  trigger: EffectTrigger; // "played", "attacked", "end_of_turn"...
+  effectSpeed: EffectSpeed;
+  targetZone?: EffectTarget[] | null;
+  targetFilter: TargetCondition;
+  action: string; // chave do EFFECT_HANDLERS
+  requiresTarget: boolean; // precisa escolher alvo antes de ativar?
+  params?: Record<string, any>; // dados extras (value, targetId...)
+}
+
 interface ApModifier {
   id: string;
   value: number;

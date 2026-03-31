@@ -1,24 +1,47 @@
-import React from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
+} from "../../ui/dialog";
+import { Button } from "../../ui/button";
 import socket from "@/socket";
 import { useGameStore } from "@/store/gameStore";
+import SelectTarget from "./SelectTarget";
+import { usePendingEffect } from "@/hooks/usePendingEffect";
 
 export default function PendingOptionalEffectDialog() {
-  const pending = useGameStore((s: any) => s.pendingOptionalEffect);
-  const setPending = useGameStore((s: any) => s.setPendingOptionalEffect);
+  const effect = usePendingEffect();
   const gameId = useGameStore((s) => s.roomId);
 
-  if (!pending) return null;
+  if (!effect) return null;
+  const {
+    pending,
+    setPending,
+    requiresTarget,
+    target,
+    effectTarget,
+    hasLegalTarget,
+  } = effect;
+
+  console.log("precisa de alvo? ", requiresTarget);
+  console.log("zone de alvo? ", target);
+
+  console.log("tem alvo legal: ", hasLegalTarget);
+
+  if (!hasLegalTarget) {
+    reject();
+    setPending(null);
+    return;
+  }
 
   function accept() {
-    socket.emit("action:resolve_optional_effect", { gameId, accept: true });
+    socket.emit("action:resolve_optional_effect", {
+      gameId,
+      accept: true,
+      targetInstanceId: effectTarget?.instanceId,
+    });
     setPending(null);
   }
 
@@ -26,7 +49,7 @@ export default function PendingOptionalEffectDialog() {
     socket.emit("action:resolve_optional_effect", { gameId, accept: false });
     setPending(null);
   }
-
+  if (!pending) return null;
   return (
     <Dialog open={true} onOpenChange={() => setPending(null)}>
       <DialogContent showCloseButton={false}>
@@ -40,13 +63,17 @@ export default function PendingOptionalEffectDialog() {
               "Você pode executar um efeito."}
           </DialogDescription>
         </DialogHeader>
-
+        <SelectTarget />
         <div className="px-6 py-5 flex flex-col gap-5">
           <div className="flex gap-3 justify-end">
             <Button variant="outline" onClick={reject}>
               Recusar
             </Button>
-            <Button onClick={accept}>Aceitar</Button>
+            {effectTarget ? (
+              <Button onClick={() => accept()}>Aceitar</Button>
+            ) : (
+              <Button disabled>Escolha um alvo</Button>
+            )}
           </div>
         </div>
       </DialogContent>

@@ -474,7 +474,7 @@ export const cardTemplates: CardTemplate[] = [
           "[Played] [Evolved] You may Exhaust 1 card in your opponent's Farm.",
         requiresTarget: true,
         targetZones: ["opponent_farm"],
-        targetFilter: "any",
+        targetFilter: "active",
         maxTargets: 1,
       },
       {

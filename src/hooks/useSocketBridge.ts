@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import socket from "@/socket";
 import { useGameStore } from "@/store/gameStore";
 import { EVENTS } from "@/protocol";
+import { usePendingEffectStore } from "@/store/pendingEffectStore";
+import type { PendingOptionalEffect } from "@/types";
 
 // Hook que instala listeners globais do socket e atualiza a store central.
 export function useSocketBridge() {
@@ -10,7 +12,7 @@ export function useSocketBridge() {
   const setRoomId = useGameStore((s) => s.setRoomId);
   const setPlayerId = useGameStore((s) => s.setPlayerId);
   const setGameState = useGameStore((s) => s.setGameState);
-  const setPendingOptionalEffect = useGameStore(
+  const setPendingOptionalEffect = usePendingEffectStore(
     (s) => s.setPendingOptionalEffect,
   );
   const setScreen = useGameStore((s) => s.setScreen);
@@ -36,8 +38,9 @@ export function useSocketBridge() {
       setGameState(payload ?? null);
     }
 
-    function handlePending(payload: any) {
-      setPendingOptionalEffect(payload?.effect ?? null);
+    function handlePending(payload: PendingOptionalEffect) {
+      console.log("esse é o payload: ", payload);
+      setPendingOptionalEffect(payload);
     }
 
     socket.on(EVENTS.ROOMS_UPDATED, handleRoomsUpdated);

@@ -43,7 +43,7 @@ import usePlayerState from "@/hooks/usePlayerState";
 import ConfirmPlayFromHand from "./hand/ConfirmPlayFromHand";
 import BattleDialog from "./battle/BattleDialog";
 import BlockerDialog from "./battle/BlockerDialog";
-import PendingOptionalEffectDialog from "./PendingOptionalEffectDialog";
+import PendingOptionalEffectDialog from "./effect/PendingOptionalEffectDialog";
 import ConfirmPlayFromFarm from "./farm/ConfirmPlayFromFarm";
 import ConfirmEvolveFromHand from "./hand/ConfirmEvolveFromHand";
 
@@ -115,7 +115,7 @@ const Game = () => {
     moveMonsterToBattle,
     declareAttack,
     declareBlock,
-  } = useGameSocket(gameState?.id);
+  } = useGameSocket();
 
   const { isMainPhase } = useGamePhases({
     gameState,
@@ -133,8 +133,7 @@ const Game = () => {
   console.log(isDeclaringAttack);
 
   const playerState = usePlayerState();
-
-  if (!gameState || !playerState) return null;
+  if (!playerState || !gameState) return null;
 
   const { me, meState, opp, oppState } = playerState;
 

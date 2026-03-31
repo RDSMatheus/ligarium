@@ -4,6 +4,7 @@ import type {
   ChainState,
   PlayerState,
   GameState,
+  PendingOptionalEffect,
 } from "@/types";
 import { create } from "zustand";
 
@@ -57,8 +58,6 @@ type GameStore = {
   setRoom: (r: RoomType | null) => void;
   gameState: GameState | null;
   setGameState: (game: GameState | null) => void;
-  pendingOptionalEffect: any | null;
-  setPendingOptionalEffect: (e: any | null) => void;
   playerId: string | null;
   setPlayerId: (pId: string | null) => void;
   screen: "lobby" | "room" | "game";
@@ -76,8 +75,6 @@ export const useGameStore = create<GameStore>((set) => ({
   setRoom: (r) => set({ room: r }),
   gameState: null,
   setGameState: (game) => set({ gameState: game }),
-  pendingOptionalEffect: null,
-  setPendingOptionalEffect: (e) => set({ pendingOptionalEffect: e ?? null }),
   playerId: null,
   setPlayerId: (p) => set({ playerId: p }),
   screen: "lobby",
