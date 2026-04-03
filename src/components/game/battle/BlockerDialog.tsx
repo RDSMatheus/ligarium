@@ -8,14 +8,11 @@ import {
 import { useBattle } from "@/hooks/useBattle";
 import { useGameSocket } from "@/hooks/useGameSocket";
 import usePlayerState from "@/hooks/usePlayerState";
-import { useGameStore } from "@/store/gameStore";
 import { GameCard } from "../card/GameCard";
 import { cardTemplates } from "@/data/cardDatabase";
 import { Button } from "@/components/ui/button";
 
 const BlockerDialog = () => {
-  const { gameState } = useGameStore();
-  const { declareAttack, declareBlock } = useGameSocket(gameState?.id);
   const playerState = usePlayerState();
   const {
     isDeclaringAttack,
@@ -30,12 +27,9 @@ const BlockerDialog = () => {
     confirmBlocker,
     selectBlocker,
     confirmNotBlocking,
-  } = useBattle({
-    declareAttack,
-    declareBlock,
-  });
+  } = useBattle();
 
-  console.log(isDeclaringAttack);
+  console.log(showBlockPrompt);
 
   if (!playerState) return null;
   return (

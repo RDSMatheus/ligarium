@@ -28,8 +28,6 @@ const ConfirmPlayFromHand = ({ gameId }: { gameId: string }) => {
   const { selectedFromHandCard, toggleExhaust, cancelPlay, confirmPlay } =
     usePlayMonster(gameId);
 
-  console.log("carta selecionada: ", selectedHandCard);
-
   return (
     <Dialog
       open={selectedHandCard ? true : false}

@@ -20,7 +20,6 @@ const Room = () => {
 
   useEffect(() => {
     function handleRoomUpdate(res: RoomType) {
-      console.log("room_update:", res);
       useGameStore.getState().setRoom(res);
       useGameStore.getState().setScreen("room");
     }
@@ -34,7 +33,6 @@ const Room = () => {
 
   useEffect(() => {
     function handleGameStart(res: any) {
-      console.log("Jogo atualizado: ", res);
       useGameStore.getState().setGameState(res.gameState);
       useGameStore.getState().setScreen("game");
       setTimeout(() => {
@@ -51,12 +49,9 @@ const Room = () => {
   }, []);
 
   function startGame() {
-    console.log("room no momento do clique:", screen);
     if (!room) return;
-    console.log("room: ", room);
-    socket.emit("start_game", { gameId: room.gameId }, (res: any) => {
-      console.log("Jogo iniciado: ", res);
-    });
+
+    socket.emit("start_game", { gameId: room.gameId }, (res: any) => {});
   }
 
   function handleReady() {

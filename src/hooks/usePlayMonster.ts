@@ -54,7 +54,6 @@ export function usePlayMonster(gameId: string) {
   }
 
   function confirmFarmPlay() {
-    console.log("confirmFarmPlay: ", selectedFarmCard);
     if (!selectedFarmCard) return;
     playMonsterFromFarm(selectedFarmCard.instanceId, exhaustingIds);
     reset();

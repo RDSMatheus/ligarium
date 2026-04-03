@@ -27,7 +27,6 @@ const OpponentTerrain = () => {
     (p) => p.playerId !== playerId,
   )[0].terrainsDeck;
 
-  console.log(terrainDeck);
   return (
     <div className="flex flex-col items-center gap-1.5 shrink-0">
       {/* Label */}

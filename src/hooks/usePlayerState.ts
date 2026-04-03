@@ -10,16 +10,16 @@ const usePlayerState = (): {
   const playerId = useGameStore((s) => s.playerId);
   const gameState = useGameStore((s) => s.gameState);
 
-  const opp = gameState?.players.filter((o) => o.playerId !== playerId)[0];
-  const oppState = gameState?.playerStates.filter(
+  if (!gameState) return null;
+
+  const opp = gameState.players.filter((o) => o.playerId !== playerId)[0];
+  const oppState = gameState.playerStates.filter(
     (o) => o.playerId !== playerId,
   )[0];
-  const me = gameState?.players.filter((o) => o.playerId === playerId)[0];
-  const meState = gameState?.playerStates.filter(
+  const me = gameState.players.filter((o) => o.playerId === playerId)[0];
+  const meState = gameState.playerStates.filter(
     (o) => o.playerId === playerId,
   )[0];
-
-  if (!opp || !oppState || !me || !meState) return null;
 
   return {
     opp,

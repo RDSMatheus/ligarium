@@ -8,7 +8,6 @@ import socket from "@/socket";
 const CreateRoom = () => {
   function createRoom() {
     socket.emit("create_room", (res: any) => {
-      console.log(res);
       useGameStore.getState().setRoomId(res.roomId);
     });
   }
