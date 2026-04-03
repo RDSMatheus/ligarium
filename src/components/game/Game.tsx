@@ -49,6 +49,7 @@ import ConfirmPlayFromFarm from "./farm/ConfirmPlayFromFarm";
 import ConfirmEvolveFromHand from "./hand/ConfirmEvolveFromHand";
 import AttackedDialog from "./battle/AttackedDialog";
 import FarmPhaseDialog from "./farm/FarmPhaseDialog";
+import InfoCard from "./board/InfoCard";
 
 // ------------------------------------------------------------
 // Notas de organização do componente `Game`
@@ -163,7 +164,7 @@ const Game = () => {
       {/* ════════════════════════════════════════════════════
           GRID PRINCIPAL
       ════════════════════════════════════════════════════ */}
-      <div className="relative z-10 h-screen px-5 py-3 gap-2 overflow-hidden">
+      <div className="relative  z-10 h-screen px-5 py-3 gap-2 overflow-hidden">
         {/* ── LINHA 1: Oponente — info + utilidades ─────────── */}
         <div className="grid grid-cols-[1fr_3fr_1fr] items-end justify-between gap-4 shrink-0">
           {/* Player panel do oponente */}
@@ -194,7 +195,10 @@ const Game = () => {
           {/* Farm */}
         </div>
         {/* ── LINHA 2: Main Zone — Oponente ─────────────────── */}
-        <div className="grid grid-cols-3 grid-rows-3">
+        <div className="grid  grid-cols-3 grid-rows-3">
+          <div className="col-start-1 row-start-1 row-span-3">
+            <InfoCard />
+          </div>
           <div className="col-start-2 row-start-1">
             <MainZone label="Main Zone — Oponente" Icon={Mountain}>
               {oppState.mainZone.map((card, i) => (

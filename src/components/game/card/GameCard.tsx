@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/tooltip";
 import { cardTemplates } from "@/data/cardDatabase";
 import type { CardTemplate } from "@/data/cardDatabase";
+import { useCardInfoStore } from "@/store/infoCardStore";
 import type { CardInstance } from "@/types";
 import { Swords, Heart, Mountain, Rabbit } from "lucide-react";
-// import { CardData } from "./types";
 
 // Temas por tipo — cores literais
 const MONSTER_THEME = {
@@ -60,6 +60,8 @@ export function GameCard({
 }: GameCardProps) {
   const W = small ? 74 : 86;
   const H = small ? 104 : 122;
+
+  const setCardInfo = useCardInfoStore((s) => s.setCard);
 
   // ── Stack de evolução (cartas abaixo, estilo Digimon) ─────
   const stack = card?.attached ?? [];
@@ -189,7 +191,10 @@ export function GameCard({
         <Tooltip>
           <TooltipTrigger asChild>
             <div
-              onClick={onClick}
+              onClick={() => {
+                if (onClick) onClick();
+                setCardInfo(card);
+              }}
               className={`shrink-0  cursor-pointer rounded-[5px] overflow-hidden flex flex-col transition-all duration-200
               ${card.exhausted ? "rotate-12 origin-bottom" : "hover:-translate-y-1.5"}
               ${selected ? "ring-2 ring-[#F0B830] -translate-y-2 hover:-translate-y-2" : ""}`}
