@@ -21,6 +21,7 @@ const ExhaustCard = () => {
     setSelectedEvoCard,
     toggleExhaust,
     selectedPreEvo,
+    setSelectedPreEvo,
     confirmEvolve,
   } = useEvolveMonster();
 
@@ -160,6 +161,7 @@ const ExhaustCard = () => {
           <DialogClose asChild>
             <button
               onClick={() => {
+                setSelectedPreEvo(null);
                 setSelectedEvoCard(null);
                 resetExhaustingIds();
               }}
@@ -189,7 +191,6 @@ const ExhaustCard = () => {
           disabled:opacity-40 disabled:cursor-not-allowed
         "
             onClick={() => {
-              console.log("confirm evolve", selectedEvoCard, exhaustingIds);
               confirmEvolve();
               setSelectedEvoCard(null);
               resetExhaustingIds();

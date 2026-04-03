@@ -124,9 +124,7 @@ function RoomCard({
             return;
           }
           // fallback: emit directly
-          socket.emit(EVENTS.JOIN_ROOM, { gameId: room.id }, (res: any) => {
-            console.log("enter via RoomCard:", res);
-          });
+          socket.emit(EVENTS.JOIN_ROOM, { gameId: room.id }, (res: any) => {});
         }}
         disabled={room.players.length === 2}
       >

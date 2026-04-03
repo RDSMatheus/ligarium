@@ -35,9 +35,7 @@ const Lobby = () => {
     socket.on(
       "rooms_updated",
       (res: { ok: boolean; rooms?: RoomT[]; error?: string }) => {
-        console.log(res);
         if (res.ok && res.rooms) {
-          console.log("Salas disponíveis:", res.rooms);
           useGameStore.getState().setRooms(res.rooms);
         } else {
           console.error("Erro:", res.error);

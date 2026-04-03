@@ -4,6 +4,8 @@ import { create } from "zustand";
 interface BattleStore {
   attacker: CardInstance | null;
   setAttacker: (attacker: CardInstance | null) => void;
+  attackedPrompt: boolean;
+  setAttackedPrompt: (attacked: boolean) => void;
   blocker: CardInstance | null;
   setBlocker: (blocker: CardInstance | null) => void;
   targetId: string | null;
@@ -15,6 +17,8 @@ interface BattleStore {
 export const battleStore = create<BattleStore>((set) => ({
   attacker: null,
   setAttacker: (attacker) => set({ attacker }),
+  attackedPrompt: false,
+  setAttackedPrompt: (attacked) => set({ attackedPrompt: attacked }),
   blocker: null,
   setBlocker: (blocker) => set({ blocker }),
   targetId: null,

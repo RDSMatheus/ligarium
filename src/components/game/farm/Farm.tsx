@@ -30,9 +30,6 @@ const Farm = ({
   );
   const { setSelectedFarmCard, selectedFarmCard } = playMonsterStore();
 
-  console.log("carta da farm", selectedFarmCard);
-  console.log("carta da hand", selectedHandCard);
-
   if (!meState) return null;
 
   const farmSlots: CardInstance[] = [
@@ -41,7 +38,7 @@ const Farm = ({
   ];
 
   return (
-    <div className="col-start-2 col-span-2">
+    <div className="col-start-2 col-span-2 relative z-30">
       <ZoneLabel Icon={Pickaxe} text="Farm" />
       <div className="flex justify bg-amber-200/5 rounded-2xl px-3 py-3 w-fit gap-1.5">
         {farmSlots.map((card, i) =>
@@ -51,8 +48,10 @@ const Farm = ({
                 <div
                   key={card.instanceId}
                   onClick={() => {
-                    if (selectedHandCard) toggleExhaust(card.instanceId);
-                    if (selectedFarmCard) toggleExhaust(card.instanceId);
+                    if (selectedHandCard && !card.exhausted)
+                      toggleExhaust(card.instanceId);
+                    if (selectedFarmCard && !card.exhausted)
+                      toggleExhaust(card.instanceId);
                   }}
                   className={`transition-all duration-200
         ${
@@ -60,6 +59,7 @@ const Farm = ({
             ? "ring-2 ring-red-400 opacity-60 rotate-12"
             : ""
         }
+            ${!card.exhausted ? "" : "opacity-20"} 
         ${selectedHandCard || selectedFarmCard ? "cursor-pointer hover:-translate-y-1" : ""}
       `}
                 >

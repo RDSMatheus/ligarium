@@ -190,13 +190,13 @@ export function GameCard({
           <TooltipTrigger asChild>
             <div
               onClick={onClick}
-              className={`shrink-0 cursor-pointer rounded-[5px] overflow-hidden flex flex-col transition-all duration-200
+              className={`shrink-0  cursor-pointer rounded-[5px] overflow-hidden flex flex-col transition-all duration-200
               ${card.exhausted ? "rotate-12 origin-bottom" : "hover:-translate-y-1.5"}
               ${selected ? "ring-2 ring-[#F0B830] -translate-y-2 hover:-translate-y-2" : ""}`}
               style={{
                 width: W,
                 background: TH.bg,
-                border: `1.5px solid ${selected ? "#F0B830" : TH.border}`,
+                border: `1.5px solid ${selected ? "#F0B830" : card.lockedUntilEndOfTurn ? "blue" : ""}`,
                 boxShadow: selected
                   ? "0 0 22px rgba(200,144,10,0.8),0 8px 20px rgba(0,0,0,0.7)"
                   : "0 4px 14px rgba(0,0,0,0.7),inset 0 1px 0 rgba(255,255,255,0.3)",

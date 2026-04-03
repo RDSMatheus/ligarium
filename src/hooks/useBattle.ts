@@ -1,15 +1,11 @@
 import { battleStore } from "@/store/battleStore";
 import { useGameStore } from "@/store/gameStore";
-import { useState } from "react";
+import {} from "react";
+import { usePendingEffectStore } from "@/store/pendingEffectStore";
 import { useGameSocket } from "./useGameSocket";
 import type { CardInstance } from "@/types";
 
-interface UseBattleProps {
-  declareAttack: (attackerId: string, targetId: string | null) => void;
-  declareBlock?: (blockerId: string) => void;
-}
-
-export function useBattle({ declareAttack, declareBlock }: UseBattleProps) {
+export function useBattle() {
   const {
     attacker,
     isDeclaringAttack,
@@ -19,22 +15,40 @@ export function useBattle({ declareAttack, declareBlock }: UseBattleProps) {
     targetId,
     blocker,
     setBlocker,
+    attackedPrompt,
+    setAttackedPrompt,
   } = battleStore();
 
   const { gameState, playerId } = useGameStore();
 
-  const { skipBlock } = useGameSocket(gameState?.id);
+  const {
+    skipBlock,
+    declareAttack,
+    declareBlock,
+    handleAttacked,
+    handleSkipAttacked,
+  } = useGameSocket();
 
   // ── Flags derivadas do gameState ──────────────────────────
-  const isMePriority = gameState?.chain?.priority === playerId;
+  const isMePriority = gameState?.battle?.attackerPlayerId;
   const isOpponent = gameState?.battle?.attackerPlayerId !== playerId;
   const battleStep = gameState?.battle?.step;
 
+  const pendingOptionalEffect = usePendingEffectStore(
+    (s) => s.pendingOptionalEffect,
+  );
+
   const showBlockPrompt =
-    isMePriority && isOpponent && battleStep === "declare";
+    isMePriority &&
+    isOpponent &&
+    battleStep === "blocking" &&
+    !attackedPrompt &&
+    !pendingOptionalEffect
+      ? true
+      : false;
 
   const showAttackerResponse =
-    isMePriority && !isOpponent && battleStep === "declare";
+    isMePriority && !isOpponent && battleStep === "blocking";
 
   // ── Actions ───────────────────────────────────────────────
   function selectAttacker(instance: CardInstance) {
@@ -51,7 +65,7 @@ export function useBattle({ declareAttack, declareBlock }: UseBattleProps) {
   }
 
   function confirmAttack() {
-    if (!attacker) return;
+    if (!attacker || !declareAttack) return;
     declareAttack(attacker.instanceId, targetId);
     reset();
   }
@@ -94,5 +108,9 @@ export function useBattle({ declareAttack, declareBlock }: UseBattleProps) {
     selectBlocker,
     blocker,
     confirmNotBlocking,
+    attackedPrompt,
+    setAttackedPrompt,
+    handleSkipAttacked,
+    handleAttacked,
   };
 }
