@@ -6,6 +6,7 @@ import {
   DialogDescription,
 } from "../../ui/dialog";
 import { Button } from "../../ui/button";
+import { useEffect } from "react";
 import socket from "@/socket";
 import { useGameStore } from "@/store/gameStore";
 import SelectTarget from "./SelectTarget";
@@ -14,6 +15,8 @@ import { usePendingEffect } from "@/hooks/usePendingEffect";
 export default function PendingOptionalEffectDialog() {
   const effect = usePendingEffect();
   const gameId = useGameStore((s) => s.roomId);
+
+  console.log(effect);
 
   if (!effect) return null;
   const {
@@ -30,13 +33,7 @@ export default function PendingOptionalEffectDialog() {
 
   console.log("tem alvo legal: ", hasLegalTarget);
 
-  if (!hasLegalTarget) {
-    reject();
-    setPending(null);
-    return;
-  }
-
-  function accept() {
+  function acceptWithTarget() {
     socket.emit("action:resolve_optional_effect", {
       gameId,
       accept: true,
@@ -45,11 +42,27 @@ export default function PendingOptionalEffectDialog() {
     setPending(null);
   }
 
+  function acceptWithoutTarget() {
+    socket.emit("action:resolve_optional_effect", {
+      gameId,
+      accept: true,
+    });
+    setPending(null);
+  }
+
   function reject() {
+    console.log("Chamou reject.");
     socket.emit("action:resolve_optional_effect", { gameId, accept: false });
     setPending(null);
   }
+
+  useEffect(() => {
+    if (pending && !hasLegalTarget) {
+      reject();
+    }
+  }, [pending, hasLegalTarget]);
   if (!pending) return null;
+
   return (
     <Dialog open={true} onOpenChange={() => setPending(null)}>
       <DialogContent showCloseButton={false}>
@@ -63,17 +76,25 @@ export default function PendingOptionalEffectDialog() {
               "Você pode executar um efeito."}
           </DialogDescription>
         </DialogHeader>
-        <SelectTarget />
+        {requiresTarget && <SelectTarget />}
         <div className="px-6 py-5 flex flex-col gap-5">
           <div className="flex gap-3 justify-end">
             <Button variant="outline" onClick={reject}>
               Recusar
             </Button>
-            {effectTarget ? (
-              <Button onClick={() => accept()}>Aceitar</Button>
-            ) : (
-              <Button disabled>Escolha um alvo</Button>
-            )}
+
+            <Button
+              disabled={requiresTarget && !effectTarget}
+              onClick={() => {
+                if (requiresTarget) {
+                  acceptWithTarget();
+                } else {
+                  acceptWithoutTarget();
+                }
+              }}
+            >
+              {requiresTarget && !effectTarget ? "Escolha o alvo" : "Aceitar"}
+            </Button>
           </div>
         </div>
       </DialogContent>
