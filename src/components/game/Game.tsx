@@ -294,7 +294,7 @@ const Game = () => {
             <div className="row-2 col-span-full justify-center flex">
               {meState.hand && (
                 <>
-                  <PlayerHand cards={meState.hand} />
+                  <PlayerHand cards={meState.hand} state={meState} />
                   <ZoneLabel
                     Icon={Users}
                     text={`Hand ${meState.hand.length}`}

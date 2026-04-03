@@ -4,7 +4,7 @@
 
 import React from "react";
 import type { CardInstance, PlayerState } from "@/types";
-import { Eye, EyeOff, Tornado, Users } from "lucide-react";
+import { BanIcon, Eye, EyeOff, Tornado, Users } from "lucide-react";
 import { ZoneLabel } from "../board/ZoneLabel";
 import { GameCard } from "../card/GameCard";
 import { cardTemplates } from "@/data/cardDatabase";
@@ -21,9 +21,10 @@ import { useEvolveMonster } from "@/hooks/useEvolveMonster";
 
 interface PlayerHandProps {
   cards: CardInstance[];
+  state: PlayerState;
 }
 
-export function PlayerHand({ cards }: PlayerHandProps) {
+export function PlayerHand({ cards, state }: PlayerHandProps) {
   const gameState = useGameStore((s) => s.gameState);
   const playerId = useGameStore((s) => s.playerId);
 
@@ -37,6 +38,8 @@ export function PlayerHand({ cards }: PlayerHandProps) {
   const isMainPhase =
     gameState?.currentPhase === "main" &&
     gameState.currentPlayerId === playerId;
+
+  const max = [...state.battleZone, ...state.mainZone].length >= 4;
 
   return (
     <div className="flex flex-col items-center gap-1 relative z-40">
@@ -66,7 +69,7 @@ export function PlayerHand({ cards }: PlayerHandProps) {
                 <ContextMenu>
                   <ContextMenuTrigger>
                     <div
-                      className="transition-all duration-200 relative"
+                      className="transition-all duration-200 relative z-10 hover:z-20"
                       style={{
                         marginLeft: i === 0 ? 0 : -24,
                         transform: `rotate(${offset * 4}deg) translateY(${Math.abs(offset) * 5}px)`,
@@ -85,11 +88,18 @@ export function PlayerHand({ cards }: PlayerHandProps) {
                   </ContextMenuTrigger>
                   {isMainPhase && (
                     <ContextMenuContent>
-                      <ContextMenuItem
-                        onClick={() => setSelectedHandCard(card)}
-                      >
-                        <Tornado /> Jogar Monstro
-                      </ContextMenuItem>
+                      {max ? (
+                        <ContextMenuItem>
+                          <BanIcon color="red" />
+                          Você não pode mais jogar monstros: Limite 4
+                        </ContextMenuItem>
+                      ) : (
+                        <ContextMenuItem
+                          onClick={() => setSelectedHandCard(card)}
+                        >
+                          <Tornado /> Jogar Monstro
+                        </ContextMenuItem>
+                      )}
                       {canEvolveById[card.instanceId].evolve && (
                         <ContextMenuItem
                           onClick={() => {
