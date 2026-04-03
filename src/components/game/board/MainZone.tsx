@@ -9,15 +9,14 @@ interface MainZoneProps {
 
 export function MainZone({ label, Icon, children }: MainZoneProps) {
   return (
-    <div className="shrink-0">
+    <div className="my-4">
       <ZoneLabel Icon={Icon} text={label} />
       <div
-        className="flex items-center gap-2 px-4 py-2.5 rounded-xl"
+        className="flex items-center gap-2 h-36 px-4 py-2.5 rounded-xl"
         style={{
           background: "rgba(14,6,1,0.55)",
           border: "1px solid rgba(200,144,10,0.16)",
           boxShadow: "inset 0 1px 0 rgba(255,180,60,0.05)",
-          minHeight: 100,
         }}
       >
         {children}

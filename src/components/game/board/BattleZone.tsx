@@ -3,16 +3,20 @@
 // O divisor central (medalha de espadas) separa oponente e jogador.
 // Cores literais — sem variáveis.
 
+import usePlayerState from "@/hooks/usePlayerState";
 import { Swords } from "lucide-react";
+import OpponentBattleZone from "./battleZone/OpponentBattleZone";
+import MyBattleZone from "./battleZone/MyBattleZone";
 
-interface BattleZoneProps {
-  opponentSlots: React.ReactNode;
-  playerSlots: React.ReactNode;
-}
+export function BattleZone() {
+  const ps = usePlayerState();
 
-export function BattleZone({ opponentSlots, playerSlots }: BattleZoneProps) {
+  if (!ps) return null;
+
+  const { meState, oppState } = ps;
+
   return (
-    <div className="shrink-0">
+    <div className="">
       {/* Labels acima, alinhados às laterais */}
       <div className="flex justify-between mb-1 px-1">
         <div className="flex items-center gap-1.5">
@@ -48,7 +52,9 @@ export function BattleZone({ opponentSlots, playerSlots }: BattleZoneProps) {
         }}
       >
         {/* Monstros do oponente */}
-        <div className="flex items-center gap-2 flex-1">{opponentSlots}</div>
+        <div className="flex items-center gap-2 flex-1">
+          <OpponentBattleZone oppState={oppState} />
+        </div>
 
         {/* Divisor central — medalha de espadas */}
         <div className="flex flex-col items-center justify-center gap-1.5 shrink-0 self-stretch px-1">
@@ -79,7 +85,7 @@ export function BattleZone({ opponentSlots, playerSlots }: BattleZoneProps) {
 
         {/* Monstros do jogador */}
         <div className="flex items-center gap-2 flex-1 justify-end">
-          {playerSlots}
+          <MyBattleZone meState={meState} />
         </div>
       </div>
     </div>
