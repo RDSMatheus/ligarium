@@ -130,7 +130,7 @@ const Game = () => {
     };
   }, [gameState]);
 
-  const { isDeclaringAttack, showBlockPrompt, selectAttacker } = useBattle();
+  const { isDeclaringAttack } = useBattle();
 
   const playerState = usePlayerState();
   if (!playerState || !gameState) return null;
@@ -194,78 +194,48 @@ const Game = () => {
           {/* Farm */}
         </div>
         {/* ── LINHA 2: Main Zone — Oponente ─────────────────── */}
-        <MainZone label="Main Zone — Oponente" Icon={Mountain}>
-          {oppState.mainZone.map((card, i) => (
-            <GameCard
-              key={card?.instanceId ?? i}
-              card={card}
-              cardTemplate={
-                cardTemplates.filter((c) => card.templateId === c.id)[0]
-              }
-              //   onClick={card ? () => toggle(card.id) : undefined}
-            />
-          ))}
-        </MainZone>
+        <div className="grid grid-cols-3 grid-rows-3">
+          <div className="col-start-2 row-start-1">
+            <MainZone label="Main Zone — Oponente" Icon={Mountain}>
+              {oppState.mainZone.map((card, i) => (
+                <GameCard
+                  key={card?.instanceId ?? i}
+                  card={card}
+                  cardTemplate={
+                    cardTemplates.filter((c) => card.templateId === c.id)[0]
+                  }
+                  //   onClick={card ? () => toggle(card.id) : undefined}
+                />
+              ))}
+            </MainZone>
+          </div>
 
-        {/* ── LINHA 3: Battle Zone — full-width ─────────────── */}
-        <BattleZone
-          opponentSlots={oppState.battleZone.map((card, i) => (
-            <GameCard
-              key={card?.instanceId ?? i}
-              card={card}
-              cardTemplate={cardTemplates.find((c) => c.id === card.templateId)}
-            />
-          ))}
-          playerSlots={meState.battleZone.map((card, i) => (
-            <ContextMenu>
-              <ContextMenuTrigger>
+          {/* ── LINHA 3: Battle Zone — full-width ─────────────── */}
+
+          <div className="col-start-2 row-start-2">
+            <BattleZone />
+          </div>
+          <div className="col-start-2 row-start-3">
+            <MainZone label="Main Zone" Icon={Mountain}>
+              {meState.mainZone.map((card, i) => (
                 <div
-                  key={card.instanceId}
-                  className={`transition-all duration-200
-    ${
-      showBlockPrompt && !card.exhausted
-        ? "cursor-pointer ring-2 ring-[#4A90D9] hover:-translate-y-1"
-        : ""
-    }
-    ${card.exhausted ? "opacity-50" : ""}
-  `}
+                  onClick={() => {
+                    if (isMainPhase) moveMonsterToBattle(card.instanceId);
+                  }}
                 >
                   <GameCard
                     key={card?.instanceId ?? i}
                     card={card}
-                    cardTemplate={cardTemplates.find(
-                      (c) => c.id === card.templateId,
-                    )}
+                    cardTemplate={
+                      cardTemplates.filter((c) => c.id === card.templateId)[0]
+                    }
                   />
                 </div>
-              </ContextMenuTrigger>
-              <ContextMenuContent>
-                <ContextMenuItem onClick={() => selectAttacker(card)}>
-                  <SwordsIcon />
-                  Atacar
-                </ContextMenuItem>
-              </ContextMenuContent>
-            </ContextMenu>
-          ))}
-        />
-        {/* ── LINHA 4: Main Zone — Jogador ──────────────────── */}
-        <MainZone label="Main Zone" Icon={Mountain}>
-          {meState.mainZone.map((card, i) => (
-            <div
-              onClick={() => {
-                if (isMainPhase) moveMonsterToBattle(card.instanceId);
-              }}
-            >
-              <GameCard
-                key={card?.instanceId ?? i}
-                card={card}
-                cardTemplate={
-                  cardTemplates.filter((c) => c.id === card.templateId)[0]
-                }
-              />
-            </div>
-          ))}
-        </MainZone>
+              ))}
+            </MainZone>
+          </div>
+          {/* ── LINHA 4: Main Zone — Jogador ──────────────────── */}
+        </div>
         {/* ── LINHA 5: PhaseBar ─────────────────────────────── */}
         <PhaseBar phase={gameState.currentPhase} turn={gameState.turnNumber} />
         {/* ── LINHA 6: Utilidades do jogador ────────────────── */}
