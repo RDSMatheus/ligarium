@@ -151,8 +151,19 @@ export interface ChainState {
   stack: StackEntry[];
 }
 
+export type BattleStep =
+  | "declare" // ataque declarado, abre janela on_attack_declared
+  | "attacking" // [attacking] triggers do atacante
+  | "attacked" // [attacked] triggers do defensor (se houver alvo)
+  | "blocking" // janela de bloqueio
+  | "battling" // [battling] de ambos os lados
+  | "damage" // resolução do dano
+  | "after_attacking" // [after_attacking]
+  | "after_attacked" // [after_attacked]
+  | "cleanup";
+
 export interface BattleState {
-  step: "declare" | "response" | "damage" | "cleanup";
+  step: BattleStep;
   attackerPlayerId: string;
   attackerInstanceId: string;
   targetInstanceId: string | null; // null = ataque direto

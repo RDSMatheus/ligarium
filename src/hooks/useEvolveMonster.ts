@@ -94,6 +94,8 @@ export function useEvolveMonster() {
       gameId: gameState.id,
       preEvoInstanceId: selectedPreEvo,
     });
+    setSelectedEvoCard(null);
+    setSelectedPreEvo(null);
   }
 
   return {

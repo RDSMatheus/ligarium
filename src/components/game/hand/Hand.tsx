@@ -13,12 +13,11 @@ const Hand = () => {
   );
 
   function farmAction(cardInstanceId: string) {
-    console.log("clicou");
     socket.emit("action:farm", { gameId: gameState?.id, cardInstanceId });
   }
 
   if (!hand) return;
-  console.log(hand);
+
   return (
     <div className="absolute bottom-0 left-[25%]">
       <ul className="flex">

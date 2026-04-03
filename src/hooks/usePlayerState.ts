@@ -12,7 +12,6 @@ const usePlayerState = (): {
 
   if (!gameState) return null;
 
-  console.log("esse é o gameState: ", gameState);
   const opp = gameState.players.filter((o) => o.playerId !== playerId)[0];
   const oppState = gameState.playerStates.filter(
     (o) => o.playerId !== playerId,

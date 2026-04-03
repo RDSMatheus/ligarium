@@ -1,8 +1,6 @@
 import { usePendingEffectStore } from "@/store/pendingEffectStore";
 import usePlayerState from "./usePlayerState";
-import { useGameStore } from "@/store/gameStore";
 import type { EffectTarget } from "@/types";
-import { cardTemplates } from "@/data/cardDatabase";
 
 export function usePendingEffect() {
   const pending = usePendingEffectStore((s) => s.pendingOptionalEffect);
@@ -19,7 +17,7 @@ export function usePendingEffect() {
   );
 
   const ps = usePlayerState();
-  if (!ps || !target) return null;
+  if (!ps) return null;
 
   const { meState, oppState } = ps;
 
@@ -64,21 +62,23 @@ export function usePendingEffect() {
   const filter = pending?.targetFilter ?? "any";
 
   // cria lista plana de { card, zone, zoneLabel }
-  const selectableCards = target.flatMap((zone) =>
-    (zones[zone] ?? [])
-      .filter((card) => {
-        if (filter === "active") return !card.exhausted;
-        if (filter === "exhausted") return card.exhausted;
-        return true;
-      })
-      .map((card) => ({
-        card,
-        zone,
-        zoneLabel: zonesLabel[zone],
-      })),
-  );
+  const selectableCards =
+    target &&
+    target.flatMap((zone) =>
+      (zones[zone] ?? [])
+        .filter((card) => {
+          if (filter === "active") return !card.exhausted;
+          if (filter === "exhausted") return card.exhausted;
+          return true;
+        })
+        .map((card) => ({
+          card,
+          zone,
+          zoneLabel: zonesLabel[zone],
+        })),
+    );
 
-  const hasLegalTarget = selectableCards.length > 0;
+  const hasLegalTarget = selectableCards && selectableCards.length > 0;
 
   return {
     target,

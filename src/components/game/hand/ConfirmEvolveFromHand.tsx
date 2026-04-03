@@ -13,8 +13,6 @@ const ConfirmEvolveFromHand = () => {
     selectedPreEvo,
   } = useEvolveMonster();
 
-  console.log("carta para evoluir: ", selectedEvoCard);
-
   if (selectedEvoCard)
     return (
       <Dialog

@@ -44,8 +44,11 @@ import ConfirmPlayFromHand from "./hand/ConfirmPlayFromHand";
 import BattleDialog from "./battle/BattleDialog";
 import BlockerDialog from "./battle/BlockerDialog";
 import PendingOptionalEffectDialog from "./effect/PendingOptionalEffectDialog";
+import FastWindowDialog from "./effect/FastWindowDialog";
 import ConfirmPlayFromFarm from "./farm/ConfirmPlayFromFarm";
 import ConfirmEvolveFromHand from "./hand/ConfirmEvolveFromHand";
+import AttackedDialog from "./battle/AttackedDialog";
+import FarmPhaseDialog from "./farm/FarmPhaseDialog";
 
 // ------------------------------------------------------------
 // Notas de organização do componente `Game`
@@ -66,7 +69,6 @@ const Game = () => {
 
   useEffect(() => {
     function handleUpdate(res: GameState) {
-      console.log("atualizando gameState: ", res);
       if (!res) {
         console.log("gameState veio undefined");
         return;
@@ -84,10 +86,6 @@ const Game = () => {
         socket.emit("action:cleanup", { gameId: res.id });
       }
 
-      const prev = useGameStore.getState().gameState;
-
-      console.log("mesma referencia?", prev === res);
-
       useGameStore.getState().setGameState(res);
     }
     socket.on("game:update", handleUpdate);
@@ -103,10 +101,6 @@ const Game = () => {
     toggleExhaust,
     setSelectedHandCard,
   } = usePlayMonster(gameState?.id ?? "");
-
-  useEffect(() => {
-    console.log(selectedHandCard);
-  }, [selectedHandCard]);
 
   const {
     endTurn,
@@ -125,12 +119,18 @@ const Game = () => {
       socket.emit("action:refresh", { gameId: gameState?.id }),
   });
 
-  const { isDeclaringAttack, showBlockPrompt, selectAttacker } = useBattle({
-    declareAttack,
-    declareBlock,
-  });
+  useEffect(() => {
+    const handlePrompt = (res: any) => {
+      console.log("game:prompt_attacked:", res);
+    };
+    socket.on("game:prompt_attacked", handlePrompt);
+    console.log("gameState atualizado:", gameState);
+    return () => {
+      socket.off("game:prompt_attacked", handlePrompt);
+    };
+  }, [gameState]);
 
-  console.log(isDeclaringAttack);
+  const { isDeclaringAttack, showBlockPrompt, selectAttacker } = useBattle();
 
   const playerState = usePlayerState();
   if (!playerState || !gameState) return null;
@@ -292,8 +292,15 @@ const Game = () => {
           {/* Utilidades: Deck + Trash */}
           <div className="grid  justify-center h-full grid-cols-3 grid-rows-[auto_1fr]">
             <div className="row-2 col-span-full justify-center flex">
-              <PlayerHand cards={meState.hand} onFarmAction={farmAction} />
-              <ZoneLabel Icon={Users} text={`Hand ${meState.hand.length}`} />
+              {meState.hand && (
+                <>
+                  <PlayerHand cards={meState.hand} />
+                  <ZoneLabel
+                    Icon={Users}
+                    text={`Hand ${meState.hand.length}`}
+                  />
+                </>
+              )}
             </div>
             <div className="col-start-2 col-span-2">
               <Farm
@@ -329,7 +336,6 @@ const Game = () => {
                 if (!open) setSelectedHandCard(null);
               }}
             >
-              <DialogTrigger>Open</DialogTrigger>
               <DialogContent
                 className="
   bg-[rgba(18,8,2,0.97)]
@@ -540,7 +546,10 @@ const Game = () => {
           <ConfirmPlayFromFarm gameId={gameState.id} />
           <BlockerDialog />
           <PendingOptionalEffectDialog />
+          <FastWindowDialog />
           <ConfirmEvolveFromHand />
+          <AttackedDialog />
+          <FarmPhaseDialog />
         </div>
       </div>
     </div>
