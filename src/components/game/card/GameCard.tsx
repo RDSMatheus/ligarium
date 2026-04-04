@@ -15,10 +15,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cardTemplates } from "@/data/cardDatabase";
-import type { CardTemplate } from "@/data/cardDatabase";
+import type { Attribute, CardTemplate, MonsterType } from "@/data/cardDatabase";
 import { useCardInfoStore } from "@/store/infoCardStore";
 import type { CardInstance } from "@/types";
 import { Swords, Heart, Mountain, Rabbit } from "lucide-react";
+import AttributeIcon from "./AttributeIcon";
 
 /* ═══════════════════════════════════════════════════════
    PALETA POR MONSTER TYPE — classes Tailwind literais
@@ -371,7 +372,7 @@ export function GameCard({
               ${selected ? "ring-2 ring-[#F0B830] -translate-y-2 hover:-translate-y-2" : ""}`}
               style={{
                 width: W,
-                background: TH.bg,
+                background: TH.hexBg,
                 border: `1.5px solid ${selected ? "#F0B830" : card.lockedUntilEndOfTurn ? "blue" : ""}`,
                 boxShadow: selected
                   ? "0 0 22px rgba(200,144,10,0.8),0 8px 20px rgba(0,0,0,0.7)"
