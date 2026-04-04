@@ -29,8 +29,6 @@ const BlockerDialog = () => {
     confirmNotBlocking,
   } = useBattle();
 
-  console.log(showBlockPrompt);
-
   if (!playerState) return null;
   return (
     <Dialog

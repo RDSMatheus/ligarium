@@ -17,10 +17,10 @@ const InfoCard = () => {
   if (!template) return null;
 
   return (
-    <Card className="max-w-2xl relative mx-auto my-10 h-[calc(100%-40px)] bg-panel border border-[rgba(200,144,10,0.18)] text-[#FFF3D8] shadow-lg">
+    <Card className="w-50 xl:w-100 relative mx-auto my-3 lg:my-5 xl:my-10 h-100 bg-panel border border-[rgba(200,144,10,0.18)] text-[#FFF3D8] shadow-lg">
       <CardHeader className="grid grid-cols-[auto_1fr] items-center gap-3">
         <div
-          className="shrink-0 rounded overflow-hidden"
+          className="rounded overflow-hidden"
           style={{ width: 72, height: 84 }}
         >
           {template.image ? (
@@ -36,19 +36,19 @@ const InfoCard = () => {
 
         <div>
           <CardTitle
-            className="text-4xl"
+            className="text-xl lg:text-2xl"
             style={{ fontFamily: "Cinzel,Georgia,serif", color: "#FFF3D8" }}
           >
             {template.name}
           </CardTitle>
-          <div className="text-2xl text-muted-foreground mt-0.5">
+          <div className="text-lg lg:text-xl xl:text-2xl text-muted-foreground mt-0.5">
             {template.subtype ?? template.tribe ?? template.type}
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="overflow-auto h-25">
         <CardDescription
-          className="text-2xl"
+          className="text-2xl "
           style={{
             fontStyle: "italic",
             fontFamily: "Cinzel,Georgia,serif",
@@ -69,11 +69,11 @@ const InfoCard = () => {
         )}
       </CardContent>
 
-      <CardFooter className="justify-between absolute bottom-10 items-center">
-        <div className="flex items-center gap-2">
+      <CardFooter className="justify-between absolute bottom-10 text-lg 2xl:text-2xl items-center">
+        <div className="flex  items-center gap-2">
           {template.playCost !== undefined && (
             <div
-              className="px-4 py-1.5 rounded bg-[rgba(200,144,10,0.12)] text-2xl font-semibold"
+              className="px-2 py-0.5 2xl:px-4 2xl:py-1.5 text-nowrap  rounded bg-[rgba(200,144,10,0.12)] font-semibold"
               style={{ fontFamily: "Cinzel,Georgia,serif", color: "#FFF3D8" }}
             >
               Play {template.playCost}
@@ -81,7 +81,7 @@ const InfoCard = () => {
           )}
           {template.evoCost !== undefined && (
             <div
-              className="px-4 py-1.5 rounded bg-[rgba(200,144,10,0.12)] text-2xl font-semibold"
+              className="px-2 py-0.5 2xl:px-4 2xl:py-1.5 text-nowrap  rounded bg-[rgba(200,144,10,0.12)]  font-semibold"
               style={{ fontFamily: "Cinzel,Georgia,serif", color: "#FFF3D8" }}
             >
               EVO {template.evoCost}
@@ -90,7 +90,7 @@ const InfoCard = () => {
 
           {template.ap !== undefined && (
             <div
-              className="flex items-center gap-3 px-4 py-1.5 rounded bg-[rgba(200,144,10,0.06)] text-2xl text-[#FFF3D8]"
+              className="flex items-center gap-3 px-2 py-0.5 2xl:px-4 2xl:py-1.5 rounded bg-[rgba(200,144,10,0.06)] text-lg xl text-[#FFF3D8]"
               style={{ fontFamily: "Cinzel,Georgia,serif" }}
             >
               <Swords size={24} />
@@ -100,7 +100,7 @@ const InfoCard = () => {
 
           {template.hp !== undefined && (
             <div
-              className="flex items-center gap-3 px-4 py-1.5 rounded bg-[rgba(200,144,10,0.06)] text-2xl text-[#FFF3D8]"
+              className="flex items-center gap-3 px-2 py-0.5 2xl:px-4 2xl:py-1.5 rounded bg-[rgba(200,144,10,0.06)] text-[#FFF3D8]"
               style={{ fontFamily: "Cinzel,Georgia,serif" }}
             >
               <span className="font-semibold">
