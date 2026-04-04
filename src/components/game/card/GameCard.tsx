@@ -15,10 +15,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cardTemplates } from "@/data/cardDatabase";
-import type { Attribute, CardTemplate, MonsterType } from "@/data/cardDatabase";
+import type { CardTemplate } from "@/data/cardDatabase";
+import { useCardInfoStore } from "@/store/infoCardStore";
 import type { CardInstance } from "@/types";
 import { Swords, Heart, Mountain, Rabbit } from "lucide-react";
-import AttributeIcon from "./AttributeIcon";
 
 /* ═══════════════════════════════════════════════════════
    PALETA POR MONSTER TYPE — classes Tailwind literais
@@ -271,6 +271,8 @@ export function GameCard({
   const W = small ? 74 : 86;
   const H = small ? 104 : 122;
 
+  const setCardInfo = useCardInfoStore((s) => s.setCard);
+
   // ── Stack de evolução (cartas abaixo, estilo Digimon) ─────
   const stack = card?.attached ?? [];
   const PEEK = small ? 14 : 18;
@@ -360,18 +362,21 @@ export function GameCard({
         <Tooltip>
           <TooltipTrigger asChild>
             <div
-              onClick={onClick}
-              className={`shrink-0 cursor-pointer rounded-[5px] overflow-hidden flex flex-col transition-all duration-200
-                ${TH.cardBg} border-[1.5px]
-                ${card.exhausted ? "rotate-12 origin-bottom" : "hover:-translate-y-1.5"}
-                ${
-                  selected
-                    ? "ring-2 ring-gold-bright -translate-y-2 hover:-translate-y-2 border-gold-bright shadow-[0_0_22px_rgba(200,144,10,0.8),0_8px_20px_rgba(0,0,0,0.7)]"
-                    : card.lockedUntilEndOfTurn
-                      ? "border-blue-500 shadow-[0_4px_14px_rgba(0,0,0,0.7)]"
-                      : `${TH.hexBorder} shadow-[0_4px_14px_rgba(0,0,0,0.7)]`
-                }`}
-              style={{ width: W }}
+              onClick={() => {
+                if (onClick) onClick();
+                setCardInfo(card);
+              }}
+              className={`shrink-0  cursor-pointer rounded-[5px] overflow-hidden flex flex-col transition-all duration-200
+              ${card.exhausted ? "rotate-12 origin-bottom" : "hover:-translate-y-1.5"}
+              ${selected ? "ring-2 ring-[#F0B830] -translate-y-2 hover:-translate-y-2" : ""}`}
+              style={{
+                width: W,
+                background: TH.bg,
+                border: `1.5px solid ${selected ? "#F0B830" : card.lockedUntilEndOfTurn ? "blue" : ""}`,
+                boxShadow: selected
+                  ? "0 0 22px rgba(200,144,10,0.8),0 8px 20px rgba(0,0,0,0.7)"
+                  : "0 4px 14px rgba(0,0,0,0.7),inset 0 1px 0 rgba(255,255,255,0.3)",
+              }}
             >
               {/* ── Custo + badge atributo ── */}
               <div className="flex items-center justify-between px-1.5 pt-1 pb-0.5">

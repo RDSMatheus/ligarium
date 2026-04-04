@@ -45,15 +45,7 @@ export function PlayerHand({ cards, state }: PlayerHandProps) {
     <div className="flex flex-col items-center gap-1 relative z-40">
       <ZoneLabel Icon={Users} text={`Hand (${cards.length})`} />
 
-      <div
-        className="flex items-end"
-        style={{
-          paddingBottom: 6,
-          position: "fixed",
-          bottom: "100px",
-          transform: "scale(2)",
-        }}
-      >
+      <div className="flex items-end pb-1.5 fixed bottom-5 xl:bottom-10 scale-50 lg:scale-75 xl:scale-120 2xl:scale-150 3xl:scale-200">
         {/* Cards — fade + slide down when hidden */}
         <div
           className={`flex items-end transition-all duration-300 ${

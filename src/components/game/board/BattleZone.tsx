@@ -3,16 +3,20 @@
 // O divisor central (medalha de espadas) separa oponente e jogador.
 // Cores literais — sem variáveis.
 
+import usePlayerState from "@/hooks/usePlayerState";
 import { Swords } from "lucide-react";
+import OpponentBattleZone from "./battleZone/OpponentBattleZone";
+import MyBattleZone from "./battleZone/MyBattleZone";
 
-interface BattleZoneProps {
-  opponentSlots: React.ReactNode;
-  playerSlots: React.ReactNode;
-}
+export function BattleZone() {
+  const ps = usePlayerState();
 
-export function BattleZone({ opponentSlots, playerSlots }: BattleZoneProps) {
+  if (!ps) return null;
+
+  const { meState, oppState } = ps;
+
   return (
-    <div className="shrink-0">
+    <div className="">
       {/* Labels acima, alinhados às laterais */}
       <div className="flex justify-between mb-1 px-1">
         <div className="flex items-center gap-1.5">
@@ -37,18 +41,20 @@ export function BattleZone({ opponentSlots, playerSlots }: BattleZoneProps) {
 
       {/* Strip âmbar */}
       <div
-        className="flex items-center gap-3 px-4 py-2.5 rounded-xl"
+        className="flex items-center gap-3 px-4 py-2.5 rounded-xl preserve-3d backface-hidden"
         style={{
           background:
             "linear-gradient(to bottom,rgba(192,112,48,0.3),rgba(145,75,18,0.2))",
           border: "1px solid rgba(200,144,10,0.42)",
           boxShadow:
-            "inset 0 1px 0 rgba(255,180,60,0.14),inset 0 -1px 0 rgba(0,0,0,0.28),0 2px 12px rgba(0,0,0,0.4)",
+            "inset 0 1px 0 rgba(255,180,60,0.14), inset 0 -1px 0 rgba(0,0,0,0.28), 0 18px 40px rgba(0,0,0,0.6)",
           minHeight: 112,
         }}
       >
         {/* Monstros do oponente */}
-        <div className="flex items-center gap-2 flex-1">{opponentSlots}</div>
+        <div className="flex items-center gap-2 flex-1">
+          <OpponentBattleZone oppState={oppState} />
+        </div>
 
         {/* Divisor central — medalha de espadas */}
         <div className="flex flex-col items-center justify-center gap-1.5 shrink-0 self-stretch px-1">
@@ -79,7 +85,7 @@ export function BattleZone({ opponentSlots, playerSlots }: BattleZoneProps) {
 
         {/* Monstros do jogador */}
         <div className="flex items-center gap-2 flex-1 justify-end">
-          {playerSlots}
+          <MyBattleZone meState={meState} />
         </div>
       </div>
     </div>

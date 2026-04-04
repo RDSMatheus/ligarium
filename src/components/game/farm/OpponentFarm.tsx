@@ -20,9 +20,9 @@ const OpponentFarm = () => {
   ];
 
   return (
-    <div className="col-start-2 col-span-2">
+    <div className="col-start-2 col-span-2 ">
       <ZoneLabel Icon={Pickaxe} text="Farm" />
-      <div className="flex justify bg-amber-200/5 rounded-2xl px-3 py-3 w-fit gap-1.5">
+      <div className="flex justify bg-amber-200/5 rounded-2xl px-3 py-3 w-fit gap-1.5 rotate-180">
         {farmSlots.map((card, i) =>
           card ? (
             <div
