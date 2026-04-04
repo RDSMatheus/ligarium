@@ -8,6 +8,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { useBattle } from "@/hooks/useBattle";
 import { Zap, ShieldAlert } from "lucide-react";
+import { usePendingEffect } from "@/hooks/usePendingEffect";
+import { useEffect } from "react";
+import { useGameSocket } from "@/hooks/useGameSocket";
 
 const AttackedDialog = () => {
   const {
@@ -15,7 +18,19 @@ const AttackedDialog = () => {
     setAttackedPrompt,
     handleAttacked,
     handleSkipAttacked,
+    isDeclaringAttack,
   } = useBattle();
+  const effect = usePendingEffect();
+
+  console.log(effect);
+
+  useEffect(() => {
+    if (effect && !effect.pending) {
+      console.log("triggou");
+      handleSkipAttacked();
+    }
+  }, [isDeclaringAttack]);
+
   return (
     <Dialog
       open={attackedPrompt}

@@ -41,13 +41,13 @@ export function BattleZone() {
 
       {/* Strip âmbar */}
       <div
-        className="flex items-center gap-3 px-4 py-2.5 rounded-xl"
+        className="flex items-center gap-3 px-4 py-2.5 rounded-xl preserve-3d backface-hidden"
         style={{
           background:
             "linear-gradient(to bottom,rgba(192,112,48,0.3),rgba(145,75,18,0.2))",
           border: "1px solid rgba(200,144,10,0.42)",
           boxShadow:
-            "inset 0 1px 0 rgba(255,180,60,0.14),inset 0 -1px 0 rgba(0,0,0,0.28),0 2px 12px rgba(0,0,0,0.4)",
+            "inset 0 1px 0 rgba(255,180,60,0.14), inset 0 -1px 0 rgba(0,0,0,0.28), 0 18px 40px rgba(0,0,0,0.6)",
           minHeight: 112,
         }}
       >
