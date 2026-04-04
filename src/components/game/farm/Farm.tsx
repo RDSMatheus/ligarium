@@ -5,7 +5,7 @@ import React from "react";
 import EmptyCardSlot from "../board/EmptyCardSlot";
 import { GameCard } from "../card/GameCard";
 import { ZoneLabel } from "../board/ZoneLabel";
-import { Pickaxe, SwordsIcon } from "lucide-react";
+import { BanIcon, Pickaxe, SwordsIcon } from "lucide-react";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -31,6 +31,8 @@ const Farm = ({
   const { setSelectedFarmCard, selectedFarmCard } = playMonsterStore();
 
   if (!meState) return null;
+
+  const max = [...meState.battleZone, ...meState.mainZone].length >= 4;
 
   const farmSlots: CardInstance[] = [
     ...meState.farm,
@@ -73,10 +75,17 @@ const Farm = ({
                 </div>
               </ContextMenuTrigger>
               <ContextMenuContent>
-                <ContextMenuItem onClick={() => setSelectedFarmCard(card)}>
-                  <SwordsIcon />
-                  Jogar
-                </ContextMenuItem>
+                {max ? (
+                  <ContextMenuItem>
+                    <BanIcon color="red" />
+                    Você não pode mais jogar monstros: Limite 4
+                  </ContextMenuItem>
+                ) : (
+                  <ContextMenuItem onClick={() => setSelectedFarmCard(card)}>
+                    <SwordsIcon />
+                    Jogar
+                  </ContextMenuItem>
+                )}
               </ContextMenuContent>
             </ContextMenu>
           ) : (

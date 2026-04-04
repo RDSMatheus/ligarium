@@ -11,18 +11,29 @@
 
 export type CardType = "monster" | "spell" | "terrain";
 
-export type CardTribe =
-  | "Demon"
+export type MonsterType =
+  | "Insect"
+  | "Plant"
   | "Dragon"
+  | "Machine"
+  | "Bird"
+  | "Fairy"
   | "Beast"
   | "Aquan"
-  | "Bird"
-  | "Insect"
-  | "Fish"
-  | "Fairy"
-  | "Plant"
-  | "Machine"
-  | "None";
+  | "Reptile"
+  | "Demon"
+  | "Fish";
+
+export type Attribute =
+  | "Fire"
+  | "Electric"
+  | "Air"
+  | "Water"
+  | "Nature"
+  | "Earth"
+  | "Steel"
+  | "Ice"
+  | "Light";
 
 export type EffectTrigger =
   | "taunt_while_exhausted"
@@ -129,9 +140,9 @@ export interface CardTemplate {
   id: string;
   name: string;
   type: CardType;
-  tribe?: CardTribe;
+  subtype?: MonsterType;
+  attribute: Attribute;
   description: string;
-  subtype?: string;
   hp?: number;
   ap?: number;
   playCost?: number;
@@ -152,28 +163,28 @@ export const cardTemplates: CardTemplate[] = [
     id: "terrain_forest",
     name: "Floresta Ancestral",
     type: "terrain",
-    tribe: "None",
+    attribute: "Nature",
     description: "Uma floresta densa cheia de vida.",
   },
   {
     id: "terrain_volcano",
     name: "Vulcão Ardente",
     type: "terrain",
-    tribe: "None",
+    attribute: "Fire",
     description: "Lava escorrendo pelas encostas.",
   },
   {
     id: "terrain_ocean",
     name: "Oceano Profundo",
     type: "terrain",
-    tribe: "None",
+    attribute: "Water",
     description: "Águas escuras e misteriosas.",
   },
   {
     id: "terrain_mountain",
     name: "Montanha Sagrada",
     type: "terrain",
-    tribe: "None",
+    attribute: "Water",
     description: "Picos gelados tocando as nuvens.",
   },
 
@@ -182,14 +193,16 @@ export const cardTemplates: CardTemplate[] = [
     id: "terrain_heavens_fountain",
     name: "Heaven's Fountain",
     type: "terrain",
-    tribe: "None",
+    attribute: "Water",
     description: "Allied monsters gain 10 HP.",
-    image: "Basic_Pack110.png",
     effects: [
       {
-        speed: "trigger",
         trigger: ["continuous"],
         action: "allied_monsters_gain_hp",
+        speed: "trigger",
+        requiresTarget: true,
+        condition: "always",
+        optional: false,
         value: 10,
         description: "[Continuous] Allied monsters gain 10 HP.",
       },
@@ -199,16 +212,18 @@ export const cardTemplates: CardTemplate[] = [
     id: "terrain_ironspine_plains",
     name: "Ironspine Plains",
     type: "terrain",
-    tribe: "None",
+    attribute: "Steel",
     description:
       "When you play a monster from your Farm, you may Exhaust this card, then draw 1 card.",
-    image: "Basic_Pack111.png",
     effects: [
       {
-        speed: "trigger",
         trigger: ["main_phase"],
         action: "draw_on_monster_played_from_farm",
+        speed: "trigger",
+        requiresTarget: false,
         value: 1,
+        optional: true,
+        condition: "always",
         description:
           "[Main Phase] When you play a monster from your Farm, you may Exhaust this card, then draw 1 card.",
       },
@@ -222,6 +237,7 @@ export const cardTemplates: CardTemplate[] = [
     type: "monster",
     subtype: "Demon",
     description: "Demônio imponente que força o oponente a atacá-lo.",
+    attribute: "Fire",
     hp: 30,
     ap: 40,
     playCost: 1,
@@ -242,6 +258,7 @@ export const cardTemplates: CardTemplate[] = [
     type: "monster",
     subtype: "Demon",
     description: "Demônio imponente que força o oponente a atacá-lo.",
+    attribute: "Fire",
     hp: 50,
     ap: 70,
     playCost: 3,
@@ -272,6 +289,7 @@ export const cardTemplates: CardTemplate[] = [
     type: "monster",
     subtype: "Dragon",
     description: "Copia o poder do monstro inimigo mais forte.",
+    attribute: "Water",
     hp: 40,
     ap: 10,
     playCost: 2,
@@ -292,6 +310,7 @@ export const cardTemplates: CardTemplate[] = [
     type: "monster",
     subtype: "Beast",
     description: "Tranca um terreno do oponente ao atacar.",
+    attribute: "Ice",
     hp: 40,
     ap: 50,
     playCost: 2,
@@ -314,6 +333,7 @@ export const cardTemplates: CardTemplate[] = [
     type: "monster",
     subtype: "Aquan",
     description: "Reduz o dano recebido baseado nos terrenos ativos.",
+    attribute: "Electric",
     hp: 40,
     ap: 30,
     playCost: 1,
@@ -335,6 +355,7 @@ export const cardTemplates: CardTemplate[] = [
     type: "monster",
     subtype: "Bird",
     description: "Concede poder extra a um aliado quando entra em campo.",
+    attribute: "Air",
     hp: 40,
     ap: 30,
     playCost: 1,
@@ -360,6 +381,7 @@ export const cardTemplates: CardTemplate[] = [
     type: "monster",
     subtype: "Insect",
     description: "Pode ser jogado da mão como bloqueador ao custo normal.",
+    attribute: "Nature",
     hp: 30,
     ap: 30,
     playCost: 1,
@@ -381,6 +403,7 @@ export const cardTemplates: CardTemplate[] = [
     name: "Karpaura",
     type: "monster",
     subtype: "Fish",
+    attribute: "Water",
     description: "Compra uma carta sempre que for curado.",
     hp: 40,
     ap: 40,
@@ -403,12 +426,12 @@ export const cardTemplates: CardTemplate[] = [
     name: "Pearcock",
     type: "monster",
     subtype: "Bird",
+    attribute: "Steel",
     hp: 30,
     description: "",
     ap: 40,
     playCost: 1,
-    image:
-      "https://drive.google.com/file/d/1BRUEDa_9B-CdMdMnRJcVmfRsInlPFjQ2/view?usp=sharing",
+    image: "/cards/bpck21.png",
     effects: [
       {
         trigger: ["played"],
@@ -430,6 +453,7 @@ export const cardTemplates: CardTemplate[] = [
     name: "Feathance",
     type: "monster",
     subtype: "Bird",
+    attribute: "Steel",
     hp: 90,
     description: "",
     ap: 70,
@@ -460,6 +484,7 @@ export const cardTemplates: CardTemplate[] = [
     type: "monster",
     subtype: "Fairy",
     description: "Pode cancelar um ataque recebido uma vez por turno.",
+    attribute: "Light",
     hp: 30,
     ap: 20,
     playCost: 1,
@@ -481,6 +506,7 @@ export const cardTemplates: CardTemplate[] = [
     name: "Shinonion",
     type: "monster",
     subtype: "Plant",
+    attribute: "Nature",
     description:
       "[Attacked] You may make the attacking monster unable to become Active until the end of your opponent's Refresh Phase.",
     hp: 30,
@@ -508,6 +534,7 @@ export const cardTemplates: CardTemplate[] = [
     type: "monster",
     subtype: "Plant",
     description: "Exaure-se no fim do turno para comprar uma carta.",
+    attribute: "Nature",
     hp: 30,
     ap: 20,
     playCost: 1,
@@ -528,6 +555,7 @@ export const cardTemplates: CardTemplate[] = [
     name: "Ninpola",
     type: "monster",
     subtype: "Plant",
+    attribute: "Nature",
     description:
       "[Played] [Evolved] You may Exhaust 1 card in your opponent's Farm. [Attacking] You can return 1 Exhausted card in your opponent's Farm to their hand.",
     hp: 60,
@@ -567,6 +595,7 @@ export const cardTemplates: CardTemplate[] = [
     name: "Robille",
     type: "monster",
     subtype: "Machine",
+    attribute: "Steel",
     description: "Terrenos reduzem o custo para jogar esta carta.",
     hp: 40,
     ap: 40,
@@ -582,10 +611,13 @@ export const cardTemplates: CardTemplate[] = [
       },
     ],
   },
+
+  // ── Spells ───────────────────────────────────────────────
   {
     id: "spell_snowdrift_stand",
     name: "Snowdrift Stand",
     type: "spell",
+    attribute: "Ice",
     description:
       "[Fast] [Played] When an opponent's monster attacks, make 1 Exhausted allied Ice monster become Active.",
     playCost: 1,
@@ -608,6 +640,7 @@ export const cardTemplates: CardTemplate[] = [
     id: "spell_shadow_sneak",
     name: "Shadow Sneak",
     type: "spell",
+    attribute: "Ice",
     description: "[Played] Cause 40 damage to 1 Active enemy monster.",
     playCost: 1,
     effects: [
@@ -637,6 +670,6 @@ export function getTemplatesByType(type: CardType): CardTemplate[] {
   return cardTemplates.filter((t) => t.type === type);
 }
 
-export function getTemplatesByTribe(tribe: CardTribe): CardTemplate[] {
-  return cardTemplates.filter((t) => t.tribe === tribe);
+export function getTemplatesByTribe(tribe: MonsterType): CardTemplate[] {
+  return cardTemplates.filter((t) => t.subtype === tribe);
 }
