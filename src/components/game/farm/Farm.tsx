@@ -39,10 +39,12 @@ const Farm = ({
     ...Array(Math.max(0, 4 - meState.farm.length)),
   ];
 
+  console.log(selectedFarmCard);
+
   return (
-    <div className="col-start-2 col-span-2 relative z-30">
+    <div className="col-start-2 col-span-2 pointer-events-auto relative z-60">
       <ZoneLabel Icon={Pickaxe} text="Farm" />
-      <div className="flex justify bg-amber-200/5 rounded-2xl px-3 py-3 w-fit gap-1.5">
+      <div className="flex bg-amber-200/5 rounded-2xl px-1 3xl:px-3 py-1 3xl:py-3 w-fit gap-1.5">
         {farmSlots.map((card, i) =>
           card ? (
             <ContextMenu>
@@ -62,10 +64,11 @@ const Farm = ({
             : ""
         }
             ${!card.exhausted ? "" : "opacity-20"} 
-        ${selectedHandCard || selectedFarmCard ? "cursor-pointer hover:-translate-y-1" : ""}
+        ${selectedHandCard || selectedFarmCard ? "cursor-pointer pointer-events-auto hover:-translate-y-1" : ""}
       `}
                 >
                   <GameCard
+                    isCardOn="field"
                     card={card}
                     cardTemplate={cardTemplates.find(
                       (c) => c.id === card.templateId,

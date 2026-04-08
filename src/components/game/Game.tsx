@@ -127,7 +127,7 @@ const Game = () => {
 
   return (
     <div
-      className="relative w-full min-h-dvh overflow-visible"
+      className="relative  w-full min-h-dvh overflow-visible"
       style={{
         fontFamily: "Cinzel,Georgia,serif",
         background: `
@@ -146,7 +146,7 @@ const Game = () => {
         - UI Layer (2D overlay): InfoCard, PlayerPanel, dialogs, and other UI remain flat
       */}
       <div>
-        <div className="relative z-10 h-dvh px-5 py-3 gap-2">
+        <div className="relative bg-red-400 z-10  h-dvh px-5 py-3 gap-2">
           {/* Board layer: centered and with perspective */}
           {/*
           O que faz a "board" virar (efeito 3D):
@@ -158,7 +158,7 @@ const Game = () => {
           - `perspectiveOrigin: '50% 100%'` ajusta o ponto de fuga (olhar do jogador).
         */}
           <div
-            className="max-h-3/6"
+            className="h-1/5 mt-70"
             style={{
               display: "flex",
               alignItems: "center",
@@ -167,10 +167,10 @@ const Game = () => {
           >
             <div
               style={{
-                perspective: "1200px",
-                perspectiveOrigin: "50% 100%",
+                perspective: "1400px",
+                perspectiveOrigin: "50% 150%",
                 position: "relative",
-                zIndex: 40,
+                zIndex: 10,
               }}
             >
               {/* container inclinação: aplica a rotação 3D à cena do tabuleiro */}
@@ -182,24 +182,10 @@ const Game = () => {
                 }}
               >
                 {/* Top area: opponent farm + opponent terrain */}
-                <div className="grid grid-cols-[1fr_1fr_1fr] items-end justify-between gap-4 shrink-0">
-                  <div className="grid gap-4">
-                    {/* left column intentionally left for UI */}
-                  </div>
-
-                  <div className="grid justify-center h-full grid-cols-3 grid-rows-[auto_1fr]">
-                    <div className="col-span-full justify-center flex">
-                      {/* center top placeholder */}
-                    </div>
-                    <div className="col-span-2">
-                      <OpponentFarm />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex items-end gap-2.5">
-                      <OpponentTerrain />
-                    </div>
+                <div className="grid grid-cols-[1fr_auto_1fr] items-end justify-between gap-4">
+                  <div className="col-start-2 flex justify-center gap-2">
+                    <OpponentFarm />
+                    <OpponentTerrain />
                   </div>
                 </div>
 
@@ -209,6 +195,7 @@ const Game = () => {
                     <MainZone label="Main Zone — Oponente" Icon={Mountain}>
                       {oppState.mainZone.map((card, i) => (
                         <GameCard
+                          isCardOn="field"
                           key={card?.instanceId ?? i}
                           card={card}
                           cardTemplate={
@@ -236,6 +223,7 @@ const Game = () => {
                           key={card?.instanceId ?? i}
                         >
                           <GameCard
+                            isCardOn="field"
                             card={card}
                             cardTemplate={
                               cardTemplates.filter(
@@ -247,7 +235,12 @@ const Game = () => {
                       ))}
                     </MainZone>
                   </div>
-                  <div className="col-start-2 relative z-40 col-span-2">
+                  <div className="col-start-2 flex gap-2 relative z-50 col-span-2">
+                    <TerrainDeck
+                      exhaustingIds={exhaustingIds}
+                      selectedHandCard={selectedHandCard}
+                      toggleExhaust={toggleExhaust}
+                    />
                     <Farm
                       exhaustingIds={exhaustingIds}
                       selectedHandCard={selectedHandCard}
@@ -270,7 +263,11 @@ const Game = () => {
           - Como este overlay está fora do contexto com `perspective/rotateX`,
             seus filhos permanecem planos e legíveis (não são inclinados).
         */}
-          <UiLayer gameState={gameState} playerState={playerState} />
+          <UiLayer
+            gameState={gameState}
+            isMainPhase={isMainPhase}
+            playerState={playerState}
+          />
         </div>
       </div>
     </div>

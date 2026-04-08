@@ -21,7 +21,7 @@ export function PlayerPanel({
 
   return (
     <div
-      className="flex items-center gap-3 px-3 py-2.5 rounded-xl shrink-0"
+      className="flex items-center gap-3 px-3 py-2.5 rounded-xl shrink-0 "
       style={{
         background: "rgba(18,8,2,0.88)",
         border: "1px solid rgba(200,144,10,0.28)",

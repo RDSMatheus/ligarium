@@ -44,7 +44,7 @@ export function PlayerUtilities({
       <VSep />
 
       {/* Terrain Deck + Revealed */}
-      <div className="flex items-end gap-2.5">
+      <div className="flex items-end gap-2.5 bg-red-500!">
         <TerrainDeck
           exhaustingIds={exhaustingIds}
           selectedHandCard={selectedHandCard}

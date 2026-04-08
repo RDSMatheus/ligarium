@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 170" width="230" height="170">
+  <defs>
+    <linearGradient id="plate" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f2efec"/>
+      <stop offset="35%" stop-color="#c5bbb4"/>
+      <stop offset="70%" stop-color="#8f847e"/>
+      <stop offset="100%" stop-color="#ddd7d2"/>
+    </linearGradient>
+    <linearGradient id="baseOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f6a33b"/>
+      <stop offset="100%" stop-color="#b95c18"/>
+    </linearGradient>
+  </defs>
+
+  <!-- silver plaque -->
+  <path d="M 18 34
+           L 71 34
+           L 112 76
+           L 112 148
+           L 18 148
+           Z"
+        fill="url(#plate)" stroke="#756b66" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- inner bevel -->
+  <path d="M 27 41
+           L 68 41
+           L 104 77
+           L 104 139
+           L 27 139
+           Z"
+        fill="none" stroke="#f7f4f1" stroke-opacity="0.45" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- orange gem -->
+  <path d="M 45 84 L 67 62 L 89 84 L 67 106 Z"
+        fill="url(#baseOrange)" stroke="#8c4a15" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 67 66 L 80 84 L 67 102 L 54 84 Z"
+        fill="#ffbc5a" fill-opacity="0.45"/>
+</svg>

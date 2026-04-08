@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 interface InfoCardStore {
   card: CardInstance | null;
-  setCard: (card: CardInstance) => void;
+  setCard: (card: CardInstance | null) => void;
 }
 
 export const useCardInfoStore = create<InfoCardStore>((set) => ({

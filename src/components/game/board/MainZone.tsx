@@ -12,7 +12,7 @@ export function MainZone({ label, Icon, children }: MainZoneProps) {
     <div className="my-4">
       <ZoneLabel Icon={Icon} text={label} />
       <div
-        className="flex items-center gap-2 h-36 px-4 py-2.5 rounded-xl"
+        className="flex gap-2 h-28 3xl:h-36 px-4 py-1 rounded-xl"
         style={{
           background: "rgba(14,6,1,0.55)",
           border: "1px solid rgba(200,144,10,0.16)",

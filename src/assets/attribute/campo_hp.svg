@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 170" width="230" height="170">
+  <defs>
+    <linearGradient id="plate2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f2efec"/>
+      <stop offset="35%" stop-color="#c5bbb4"/>
+      <stop offset="70%" stop-color="#8f847e"/>
+      <stop offset="100%" stop-color="#ddd7d2"/>
+    </linearGradient>
+    <linearGradient id="heartFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffbd5f"/>
+      <stop offset="100%" stop-color="#c5661d"/>
+    </linearGradient>
+  </defs>
+
+  <!-- silver plaque -->
+  <path d="M 212 34
+           L 159 34
+           L 118 76
+           L 118 148
+           L 212 148
+           Z"
+        fill="url(#plate2)" stroke="#756b66" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- inner bevel -->
+  <path d="M 203 41
+           L 162 41
+           L 126 77
+           L 126 139
+           L 203 139
+           Z"
+        fill="none" stroke="#f7f4f1" stroke-opacity="0.45" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- heart -->
+  <path d="M 160 90
+           C 160 82, 166 76, 174 76
+           C 179 76, 184 79, 187 84
+           C 190 79, 195 76, 200 76
+           C 208 76, 214 82, 214 90
+           C 214 104, 200 114, 187 126
+           C 174 114, 160 104, 160 90 Z"
+        transform="translate(-16,0)"
+        fill="url(#heartFill)" stroke="#8c4a15" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 163 86
+           C 165 82, 170 79, 175 79
+           C 179 79, 182 81, 184 84"
+        transform="translate(-16,0)"
+        fill="none" stroke="#ffd08a" stroke-opacity="0.55" stroke-width="3" stroke-linecap="round"/>
+</svg>

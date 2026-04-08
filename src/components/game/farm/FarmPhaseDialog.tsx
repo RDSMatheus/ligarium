@@ -82,13 +82,17 @@ export default function FarmPhaseDialog() {
                 <div key={card.instanceId} className="relative">
                   <div
                     onClick={() => setSelected(card)}
-                    className={`cursor-pointer transform transition-all duration-150 ${
+                    className={`cursor-pointer transform transition-all duration-150 rounded-lg ${
                       selected?.instanceId === card.instanceId
                         ? "-translate-y-1 scale-105 ring-4 ring-[#f0d090] rounded overflow-hidden shadow-[0_8px_24px_rgba(240,208,144,0.12)]"
-                        : "hover:-translate-y-1"
+                        : " shadow-amber-200 shadow-[0_0_4px_2px]"
                     }`}
                   >
-                    <GameCard card={card} cardTemplate={tpl} />
+                    <GameCard
+                      isCardOn={"hand"}
+                      card={card}
+                      cardTemplate={tpl}
+                    />
                   </div>
                 </div>
               );

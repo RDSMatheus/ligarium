@@ -52,16 +52,17 @@ const BlockerDialog = () => {
                   style={{
                     boxShadow: ` ${blocker?.instanceId === card.instanceId ? "0 0 0 2px red" : ""} `,
                   }}
+                  onClick={() =>
+                    card.exhausted ? selectBlocker(null) : selectBlocker(card)
+                  }
                 >
                   <GameCard
+                    isCardOn="field"
                     key={card?.instanceId ?? i}
                     card={card}
                     cardTemplate={cardTemplates.find(
                       (c) => c.id === card.templateId,
                     )}
-                    onClick={() =>
-                      card.exhausted ? selectBlocker(null) : selectBlocker(card)
-                    }
                   />
                 </div>
               ))}

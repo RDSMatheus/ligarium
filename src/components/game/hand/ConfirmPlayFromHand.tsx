@@ -106,6 +106,7 @@ const ConfirmPlayFromHand = ({ gameId }: { gameId: string }) => {
         "
               >
                 <GameCard
+                  isCardOn="hand"
                   card={selectedHandCard}
                   cardTemplate={selectedFromHandCard}
                 />

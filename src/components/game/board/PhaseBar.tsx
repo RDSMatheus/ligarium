@@ -12,9 +12,9 @@ const PHASES: Record<
   { label: string; color: string; Icon: LucideIcon }
 > = {
   refresh: { label: "Refresh", color: "#4A90D9", Icon: ScrollText },
-  farm: { label: "Farm", color: "#4A90D9", Icon: ScrollText },
-  draw: { label: "Compra", color: "#4A90D9", Icon: ScrollText },
-  main: { label: "Principal", color: "#F0B830", Icon: Gem },
+  farm: { label: "Energy", color: "#4A90D9", Icon: ScrollText },
+  draw: { label: "Draw", color: "#4A90D9", Icon: ScrollText },
+  main: { label: "Main", color: "#F0B830", Icon: Gem },
   battle: { label: "Batalha", color: "#E05858", Icon: Swords },
   end: { label: "Fim", color: "#8B6040", Icon: Hourglass },
 };

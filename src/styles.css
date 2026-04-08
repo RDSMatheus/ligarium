@@ -58,6 +58,25 @@
   --color-text-dim: #8b6040;
   --color-panel: rgba(28, 11, 2, 0.85);
 
+  /* Tamanhos de carta — proporção 33:46 (66×92) */
+  --width-card-xs: 50px; /* 75% */
+  --width-card-sm: 59px; /* 90% */
+  --width-card-md: 63px; /* 95% */
+  --width-card: 66px; /* 100% */
+  --width-card-lg: 73px; /* 110% */
+  --width-card-xl: 83px;   /* 125% */
+  --width-card-2xl: 99px;  /* 150% */
+  --width-card-3xl: 116px; /* 175% */
+
+  --height-card-xs: 69px;
+  --height-card-sm: 83px;
+  --height-card-md: 87px;
+  --height-card: 92px;
+  --height-card-lg: 101px;
+  --height-card-xl: 115px;
+  --height-card-2xl: 138px;
+  --height-card-3xl: 161px;
+
   /* Fonte customizada */
   --font-cinzel: "Cinzel", Georgia, serif;
   --font-display: "Cinzel Decorative", Georgia, serif;

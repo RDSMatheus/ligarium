@@ -52,18 +52,19 @@ const BattleDialog = () => {
                         style={{
                           boxShadow: ` ${targetId === card.instanceId ? "0 0 0 2px red" : ""} `,
                         }}
+                        onClick={
+                          isDeclaringAttack
+                            ? () => selectTarget(card.instanceId)
+                            : undefined
+                        }
                       >
                         <GameCard
+                          isCardOn="hand"
                           key={card?.instanceId ?? i}
                           card={card}
                           cardTemplate={cardTemplates.find(
                             (c) => c.id === card.templateId,
                           )}
-                          onClick={
-                            isDeclaringAttack
-                              ? () => selectTarget(card.instanceId)
-                              : undefined
-                          }
                         />
                       </div>
                     ))}
@@ -76,18 +77,19 @@ const BattleDialog = () => {
                       style={{
                         boxShadow: ` ${targetId === card.instanceId ? "0 0 0 2px red" : ""} `,
                       }}
+                      onClick={
+                        isDeclaringAttack
+                          ? () => selectTarget(card.instanceId)
+                          : undefined
+                      }
                     >
                       <GameCard
+                        isCardOn="hand"
                         key={card?.instanceId ?? i}
                         card={card}
                         cardTemplate={cardTemplates.find(
                           (c) => c.id === card.templateId,
                         )}
-                        onClick={
-                          isDeclaringAttack
-                            ? () => selectTarget(card.instanceId)
-                            : undefined
-                        }
                       />
                     </div>
                   ))}
