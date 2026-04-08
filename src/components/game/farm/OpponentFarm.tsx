@@ -33,6 +33,7 @@ const OpponentFarm = () => {
       `}
             >
               <GameCard
+                isCardOn="field"
                 card={card}
                 cardTemplate={cardTemplates.find(
                   (c) => c.id === card.templateId,

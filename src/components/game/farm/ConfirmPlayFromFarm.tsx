@@ -102,6 +102,7 @@ const ConfirmPlayFromFarm = ({ gameId }: { gameId: string }) => {
         "
               >
                 <GameCard
+                  isCardOn="field"
                   card={selectedFarmCard}
                   cardTemplate={selectedFromFarmCard}
                 />
@@ -126,7 +127,7 @@ const ConfirmPlayFromFarm = ({ gameId }: { gameId: string }) => {
                 >
                   <Farm
                     exhaustingIds={exhaustingIds}
-                    selectedHandCard={null}
+                    selectedHandCard={selectedFarmCard}
                     toggleExhaust={toggleExhaust}
                   />
                 </div>
@@ -197,27 +198,6 @@ const ConfirmPlayFromFarm = ({ gameId }: { gameId: string }) => {
             </button>
           </div>
         </div>
-
-        {/* amber corner accents */}
-        {[
-          "top-0 left-0",
-          "top-0 right-0",
-          "bottom-0 left-0",
-          "bottom-0 right-0",
-        ].map((pos, i) => (
-          <div
-            key={i}
-            className={`absolute ${pos} w-3 h-3 border-[#c8860a] opacity-60 ${
-              i === 0
-                ? "border-t border-l"
-                : i === 1
-                  ? "border-t border-r"
-                  : i === 2
-                    ? "border-b border-l"
-                    : "border-b border-r"
-            }`}
-          />
-        ))}
       </DialogContent>
     </Dialog>
   );

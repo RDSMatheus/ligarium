@@ -4,7 +4,7 @@ import Deck from "../deck/Deck";
 import { TrashPile } from "../trash/TrashPile";
 import { HiddenHand } from "../hand/HiddenHand";
 import { ZoneLabel } from "../board/ZoneLabel";
-import { Eye, Users } from "lucide-react";
+import { Eye, Mountain, Users } from "lucide-react";
 import InfoCard from "../board/InfoCard";
 import { PhaseBar } from "../board/PhaseBar";
 import TerrainDeck from "../terrain/TerrainDeck";
@@ -36,11 +36,15 @@ import type { Player } from "@/store/gameStore";
 import { useGameSocket } from "@/hooks/useGameSocket";
 import { useGamePhases } from "@/hooks/useGamePhase";
 import socket from "@/socket";
+import TerrainDeckUi from "../terrain/TerrainDeckUi";
+import OpponentTerrain from "../terrain/OpponentTerrain";
 
 const UiLayer = ({
   gameState,
   playerState,
+  isMainPhase,
 }: {
+  isMainPhase: boolean;
   gameState: GameState;
   playerState: {
     opp: Player;
@@ -59,22 +63,24 @@ const UiLayer = ({
   const { isDeclaringAttack } = useBattle();
   const { me, meState, opp, oppState } = playerState;
   const { endTurn, drawPhase } = useGameSocket();
-  const { isMainPhase } = useGamePhases({
-    gameState,
-    player: me.playerId,
-    drawPhase,
-    refreshPhase: () =>
-      socket.emit("action:refresh", { gameId: gameState?.id }),
-  });
 
   return (
     <div className="absolute inset-0 z-30 w-full h-full pointer-events-none">
       <div className="grid grid-cols-[1fr_1fr_1fr] items-end justify-between gap-4 shrink-0">
-        <div className="grid gap-4" style={{ transform: "none" }}>
-          <PlayerPanel playerField={oppState} playerInfo={opp} isOpponent />
-          <div className="flex flex-col gap-2">
-            <Deck isOpponent />
+        <div className="grid gap-4 justify-start pointer-events-auto ml-7 mt-7">
+          <PlayerPanel
+            isOpponent={true}
+            playerField={oppState}
+            playerInfo={opp}
+          />
+          <div className="flex items-center gap-2">
             <TrashPile trash={oppState.trash} small />
+            <Deck isOpponent={true} />
+            <TerrainDeckUi terrainDeck={oppState.terrainsDeck} />
+          </div>
+
+          <div>
+            <OpponentTerrain />
           </div>
         </div>
 
@@ -86,52 +92,36 @@ const UiLayer = ({
         </div>
 
         <div>
-          <div className="flex items-end gap-2.5">
-            {/* right UI column: keep empty or additional UI */}
-          </div>
+          <div className="flex items-end gap-2.5"></div>
         </div>
       </div>
-      <div className="fixed left-10 top-1/6">
+      <div className="fixed left-10 top-[40%]">
         <InfoCard />
       </div>
       {/* InfoCard + dialogs + central UI (flat) */}
+      <div className="fixed left-5 bottom-5">
+        <PhaseBar phase={gameState.currentPhase} turn={gameState.turnNumber} />
+      </div>
 
-      <PhaseBar phase={gameState.currentPhase} turn={gameState.turnNumber} />
-
-      <div className="grid grid-cols-[1fr_3fr_1fr] items-end justify-between gap-4 shrink-0">
+      <div className="grid grid-cols-[1fr_3fr_1fr] items-end justify-between gap-4 shrink-0 ">
         <div>
-          <div className="flex items-end gap-2.5">
-            <TerrainDeck
-              exhaustingIds={exhaustingIds}
-              selectedHandCard={selectedHandCard}
-              toggleExhaust={toggleExhaust}
-            />
-            <div>
-              <ZoneLabel Icon={Eye} text="Revealed" />
-              <div className="flex gap-1.5">
-                {meState.terrainsZone.map((card, i) => (
-                  <GameCard key={card?.instanceId ?? i} card={card} small />
-                ))}
+          <div className="flex items-end gap-2.5 bg-red-500"></div>
+        </div>
+
+        <div className="w-full">
+          {meState.hand && (
+            <div className="grid w-fit place-self-center grid-cols-[1fr_60px] pointer-events-auto">
+              <div className="col-start-1 w-135 ">
+                <PlayerHand state={meState} cards={meState.hand} />
+              </div>
+              <div className="col-start-2 ">
+                <ZoneLabel Icon={Users} text={`Hand ${meState.hand.length}`} />
               </div>
             </div>
-          </div>
+          )}
         </div>
 
-        <div className="grid  justify-center h-full grid-cols-3 grid-rows-[auto_1fr]">
-          <div className="row-2 col-span-full justify-center flex pointer-events-auto">
-            {meState.hand && (
-              <>
-                <PlayerHand cards={meState.hand} />
-                <ZoneLabel Icon={Users} text={`Hand ${meState.hand.length}`} />
-              </>
-            )}
-          </div>
-        </div>
-
-        <div
-          className="grid gap-4 pointer-events-auto"
-          style={{ transform: "none" }}
-        >
+        <div className="grid gap-4 pointer-events-auto mr-7">
           <PlayerPanel
             isOpponent={false}
             playerField={meState}
@@ -139,9 +129,18 @@ const UiLayer = ({
             isCurrentTurn={gameState.currentPlayerId === me.playerId}
             endTurn={endTurn}
           />
-          <div className="flex flex-col gap-2">
-            <Deck isOpponent={false} />
+          <div className="flex items-center gap-2">
             <TrashPile trash={meState.trash} small />
+            <Deck isOpponent={false} />
+            <TerrainDeckUi terrainDeck={meState.terrainsDeck} />
+          </div>
+          <div>
+            <ZoneLabel text="Terrenos" Icon={Mountain} />
+            <MyTerrainZone
+              exhaustingIds={exhaustingIds}
+              selectedHandCard={selectedHandCard}
+              toggleExhaust={toggleExhaust}
+            />
           </div>
         </div>
         {selectedHandCard && isMainPhase && (

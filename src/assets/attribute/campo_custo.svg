@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 220" width="240" height="220">
+  <defs>
+    <radialGradient id="glass" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="45%" stop-color="#e8dfd5" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#b8ada5" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0ece8"/>
+      <stop offset="40%" stop-color="#b4aba4"/>
+      <stop offset="70%" stop-color="#8a8079"/>
+      <stop offset="100%" stop-color="#d8d2cd"/>
+    </linearGradient>
+    <linearGradient id="shadow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6d625c"/>
+      <stop offset="100%" stop-color="#2d2624"/>
+    </linearGradient>
+  </defs>
+
+  <!-- outer metal ring -->
+  <circle cx="96" cy="98" r="86" fill="url(#shadow)"/>
+  <circle cx="96" cy="98" r="79" fill="url(#ring)"/>
+
+  <!-- bevel -->
+  <circle cx="96" cy="98" r="72" fill="#857871"/>
+  <circle cx="96" cy="98" r="68" fill="url(#glass)"/>
+
+  <!-- highlight -->
+  <ellipse cx="123" cy="64" rx="22" ry="18" fill="#ffffff" fill-opacity="0.42"/>
+
+  <!-- right connector -->
+  <path d="M 153 72 L 222 72 L 190 104 L 222 136 L 153 136 L 128 104 Z"
+        fill="#a89f98" stroke="#6f655f" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 160 80 L 206 80 L 182 104 L 206 128 L 160 128 L 141 104 Z"
+        fill="#c7c0ba" stroke="#8f857f" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M 184 90 L 196 104 L 184 118" fill="none" stroke="#7a716b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

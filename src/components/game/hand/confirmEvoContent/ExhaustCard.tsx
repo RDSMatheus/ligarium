@@ -100,6 +100,7 @@ const ExhaustCard = () => {
         "
             >
               <GameCard
+                isCardOn="hand"
                 card={selectedEvoCard}
                 cardTemplate={selectedEvoTemplate}
               />

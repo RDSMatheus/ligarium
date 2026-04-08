@@ -7,7 +7,7 @@ import type { CardInstance, PlayerState } from "@/types";
 import { BanIcon, Eye, EyeOff, Tornado, Users } from "lucide-react";
 import { ZoneLabel } from "../board/ZoneLabel";
 import { GameCard } from "../card/GameCard";
-import { cardTemplates } from "@/data/cardDatabase";
+import { cardTemplates, getTemplate } from "@/data/cardDatabase";
 import { useGameStore } from "@/store/gameStore";
 import { useState } from "react";
 import { usePlayMonster } from "@/hooks/usePlayMonster";
@@ -42,16 +42,14 @@ export function PlayerHand({ cards, state }: PlayerHandProps) {
   const max = [...state.battleZone, ...state.mainZone].length >= 4;
 
   return (
-    <div className="flex flex-col items-center gap-1 relative z-40">
-      <ZoneLabel Icon={Users} text={`Hand (${cards.length})`} />
-
+    <div className="flex flex-col items-center gap-1">
       <div className="flex items-end pb-1.5 fixed bottom-5 xl:bottom-10 scale-50 lg:scale-75 xl:scale-120 2xl:scale-150 3xl:scale-200">
         {/* Cards — fade + slide down when hidden */}
         <div
-          className={`flex items-end transition-all duration-300 ${
+          className={`flex items-end relative transition-all duration-300 ${
             showHand
-              ? "opacity-100 translate-y-0 pointer-events-auto"
-              : "opacity-0 translate-y-6 pointer-events-none"
+              ? "opacity-100 translate-y-0  pointer-events-auto"
+              : "opacity-0 translate-y-6 z-10 invisible pointer-events-none"
           }`}
         >
           {cards.map((card, i) => {
@@ -64,17 +62,14 @@ export function PlayerHand({ cards, state }: PlayerHandProps) {
                       className="transition-all duration-200 relative z-10 hover:z-20"
                       style={{
                         marginLeft: i === 0 ? 0 : -24,
-                        transform: `rotate(${offset * 4}deg) translateY(${Math.abs(offset) * 5}px)`,
+                        transform: `rotate(${offset * 5}deg) translateY(${Math.abs(offset) * 5}px)`,
                         transformOrigin: "bottom center",
                       }}
                     >
                       <GameCard
+                        isCardOn="hand"
                         card={card}
-                        cardTemplate={
-                          cardTemplates.filter(
-                            (c) => card.templateId === c.id,
-                          )[0]
-                        }
+                        cardTemplate={getTemplate(card.templateId)}
                       />
                     </div>
                   </ContextMenuTrigger>

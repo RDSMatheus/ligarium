@@ -9,15 +9,17 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Swords, Heart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const InfoCard = () => {
   const card = useCardInfoStore((s) => s.card);
+  const setCard = useCardInfoStore((s) => s.setCard);
   const template = getTemplate(card ? card.templateId : "");
 
   if (!template) return null;
 
   return (
-    <Card className="w-50 xl:w-100 relative mx-auto my-3 lg:my-5 xl:my-10 h-100 bg-panel border border-[rgba(200,144,10,0.18)] text-[#FFF3D8] shadow-lg">
+    <Card className="w-50 z-40 pointer-events-auto xl:w-100 relative mx-auto my-3 lg:my-5 xl:my-10 h-100 bg-panel border border-[rgba(200,144,10,0.18)] text-[#FFF3D8] shadow-lg">
       <CardHeader className="grid grid-cols-[auto_1fr] items-center gap-3">
         <div
           className="rounded overflow-hidden"
@@ -33,7 +35,7 @@ const InfoCard = () => {
             <div className="w-full h-full bg-[rgba(0,0,0,0.15)]" />
           )}
         </div>
-
+        <Button onClick={() => setCard(null)}>Close</Button>
         <div>
           <CardTitle
             className="text-xl lg:text-2xl"
@@ -42,7 +44,7 @@ const InfoCard = () => {
             {template.name}
           </CardTitle>
           <div className="text-lg lg:text-xl xl:text-2xl text-muted-foreground mt-0.5">
-            {template.subtype ?? template.tribe ?? template.type}
+            {template.subtype ?? template.type}
           </div>
         </div>
       </CardHeader>
